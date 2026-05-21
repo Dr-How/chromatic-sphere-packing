@@ -1,0 +1,110 @@
+\subsection*{Section 1: Spectral Realization as a Unit Packing}
+
+\begin{theorem}[Spectral Realization]
+\label{thm:spectral-realization}
+Let $G=(V,E)$ be a finite connected non-complete $k$-regular graph on $v$ vertices with adjacency matrix $A$, least eigenvalue $s<-1$ of multiplicity $g$, and $d=v-g-1$. Then there exist points $\{p_x : x\in V\}\subset \mathbb{R}^d$ such that
+\[
+  \|p_x-p_y\|=1\quad\text{if }xy\in E,
+  \qquad
+  \|p_x-p_y\|>1\quad\text{if }xy\notin E,\; x\neq y.
+\]
+In particular, the tangency graph of the unit sphere packing $\{p_x\}$ (with minimum inter-centre distance $1$) is exactly $G$.
+\end{theorem}
+
+We need to include one extra positive scale factor. The unscaled matrix $PMP$ gives the right \textbf{relative} distances, but not generally unit edge length unless $s=-2$. We define the scaled Gram matrix accordingly.
+
+\begin{proof}
+Let $\mathbf 1\in\mathbb R^v$ be the all-ones vector, let $J=\mathbf 1\mathbf 1^{\mathsf T}$, and let
+\[
+P=I-\frac{1}{v}J.
+\]
+Thus $P$ is the orthogonal projection onto $\mathbf 1^\perp$. Set
+\[
+M=\frac{1}{-s}(A-sI),
+\qquad
+\alpha=\frac{s}{2(s+1)}.
+\]
+Since $s<-1$, we have $\alpha>0$. We will use
+\[
+B=\alpha PMP
+\]
+as the Gram matrix.
+
+Because $s$ is the least eigenvalue of the symmetric matrix $A$, every eigenvalue of $A-sI$ is nonnegative. Since $-s>0$, it follows that $M\succeq 0$. Hence for every $z\in\mathbb R^v$,
+\[
+z^{\mathsf T}PMPz=(Pz)^{\mathsf T}M(Pz)\ge 0,
+\]
+so $PMP\succeq 0$, and therefore $B\succeq 0$.
+
+\textbf{Rank computation.} Since $G$ is $k$-regular, $A\mathbf 1=k\mathbf 1$. Moreover, because $G$ is connected, the $k$-eigenspace is exactly $\operatorname{span}\{\mathbf 1\}$. (Proof: if $Au=ku$ and $u_x:=u(x)$ achieves its maximum at some vertex $x_0$, then $ku_{x_0}=\sum_{y\sim x_0}u_y\le ku_{x_0}$ with equality only if all neighbours of $x_0$ also achieve the maximum; by connectedness all entries of $u$ equal $u_{x_0}$, so $u\in\operatorname{span}\{\mathbf 1\}$.)
+
+Take an orthogonal eigenbasis of $A$. The vector $\mathbf 1$ contributes one eigenvector with eigenvalue $k$. The eigenspace for the least eigenvalue $s$ has dimension $g$ and lies inside $\mathbf 1^\perp$ (because for any eigenvector $u$ with $Au = s u$ and $s \ne k$, we have $k(1^T u) = (k\mathbf{1})^T u = (A\mathbf{1})^T u = \mathbf{1}^T A u = s(\mathbf{1}^T u)$, so $(k-s)(\mathbf{1}^T u)=0$, hence $\mathbf{1}^T u = 0$). On $\mathbf 1^\perp$, the projection $P$ acts as the identity, so if $u\perp \mathbf 1$ and $Au=\lambda u$, then
+\[
+PMPu=Mu=\frac{\lambda-s}{-s}u.
+\]
+This eigenvalue is $0$ exactly when $\lambda=s$, and is positive when $\lambda>s$. Also, $PMP\mathbf 1=0$. Therefore,
+\[
+\ker(PMP)=\operatorname{span}\{\mathbf 1\}\oplus \ker(A-sI),
+\]
+so $\dim\ker(PMP)=1+g$, and
+\[
+\operatorname{rank}(B)=\operatorname{rank}(PMP)=v-(1+g)=v-g-1=d.
+\]
+
+\textbf{Gram factorization.} Since $B$ is a real positive-semidefinite matrix of rank $d$, it admits a Gram factorisation: let $B=U\Delta U^{\mathsf T}$ be its eigendecomposition, where $\Delta=\mathrm{diag}(\beta_1,\ldots,\beta_d,0,\ldots,0)$ with $\beta_1,\ldots,\beta_d>0$ the positive eigenvalues, and $U$ orthogonal. Set $F=[{\sqrt{\beta_1}}\,u_1\mid \cdots\mid {\sqrt{\beta_d}}\,u_d]\in\mathbb R^{v\times d}$, so that $FF^{\mathsf T}=\sum_{i=1}^d\beta_i u_i u_i^{\mathsf T}=B$. For each vertex $x\in V$, define $p_x\in\mathbb R^d$ to be the $x$-th row of $F$. Then $B_{xy}=\langle p_x,p_y\rangle$.
+
+\textbf{Distance computation.} Let
+\[
+\rho=\frac{k-s}{-s}.
+\]
+Every row sum of $M$ equals $\rho$: since $\sum_y A_{xy}=k$ (regularity) and $\sum_y I_{xy}=1$,
+\[
+\sum_y M_{xy}=\frac{1}{-s}(k-s)=\rho.
+\]
+Since $M$ is symmetric, every column sum also equals $\rho$. Therefore $M\mathbf{1}=\rho\mathbf{1}$, giving $MJ=\rho J$ and $JM=\rho J$, so $JMJ=J(\rho\mathbf{1}\mathbf{1}^T)=\rho v J$. Expanding:
+\[
+PMP=\Bigl(I-\tfrac{1}{v}J\Bigr)M\Bigl(I-\tfrac{1}{v}J\Bigr)
+=M-\tfrac{1}{v}MJ-\tfrac{1}{v}JM+\tfrac{1}{v^2}JMJ
+=M-\tfrac{\rho}{v}J-\tfrac{\rho}{v}J+\tfrac{\rho}{v}J
+=M-\frac{\rho}{v}J.
+\]
+For every vertex $x$, $M_{xx}=\frac{-s}{-s}=1$. For distinct vertices $x\neq y$,
+\[
+M_{xy}=
+\begin{cases}
+\dfrac{1}{-s}, & xy\in E,\\[4pt]
+0, & xy\notin E.
+\end{cases}
+\]
+Therefore $(B_0)_{xx}=1-\frac{\rho}{v}$ (where $B_0=PMP$), and for $x\neq y$,
+\[
+(B_0)_{xy}=
+\begin{cases}
+-\dfrac{1}{s}-\dfrac{\rho}{v}, & xy\in E,\\[6pt]
+-\dfrac{\rho}{v}, & xy\notin E.
+\end{cases}
+\]
+Now let $x\neq y$. Since $B=\alpha B_0$ is the Gram matrix of the $p_x$'s,
+\[
+\|p_x-p_y\|^2 = B_{xx}+B_{yy}-2B_{xy}.
+\]
+
+If $xy\in E$:
+\[
+\|p_x-p_y\|^2
+=\alpha\Bigl[2\Bigl(1-\tfrac{\rho}{v}\Bigr)-2\Bigl(-\tfrac{1}{s}-\tfrac{\rho}{v}\Bigr)\Bigr]
+=\alpha\Bigl(2+\tfrac{2}{s}\Bigr)
+=\frac{s}{2(s+1)}\cdot\frac{2(s+1)}{s}=1.
+\]
+Thus $\|p_x-p_y\|=1$ whenever $xy\in E$.
+
+If $xy\notin E$, $x\neq y$:
+\[
+\|p_x-p_y\|^2
+=\alpha\Bigl[2\Bigl(1-\tfrac{\rho}{v}\Bigr)-2\Bigl(-\tfrac{\rho}{v}\Bigr)\Bigr]
+=2\alpha=\frac{s}{s+1}.
+\]
+Since $s<-1$, write $s=-1-\varepsilon$ with $\varepsilon>0$; then $\frac{s}{s+1}=\frac{1+\varepsilon}{\varepsilon}>1$. Hence $\|p_x-p_y\|>1$ whenever $xy\notin E$ and $x\neq y$.
+
+Therefore the point set $\{p_x:x\in V\}\subset\mathbb R^d$ has minimum pairwise distance at least $1$, with equality exactly on edges of $G$. Consequently, the tangency graph of this unit sphere packing is exactly $G$.
+\end{proof}

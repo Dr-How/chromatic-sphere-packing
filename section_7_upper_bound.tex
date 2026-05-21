@@ -1,0 +1,74 @@
+\subsection*{Section 7: Improved Upper Bound via Small-Clique Graph Coloring}
+
+The following theorem improves the standard upper bound $M(n)\le \tau(n)+1$ by a polynomial factor, where $\tau(n)$ denotes the $n$-dimensional kissing number.
+
+\begin{theorem}[Improved Upper Bound]\label{thm:upper-bound}
+There exists an absolute constant $C>0$ such that, for all sufficiently large $n$,
+\[
+  M(n) \;\le\; C\,\tau(n)\,\sqrt{\frac{\ln(n+2)}{\ln \tau(n)}}.
+\]
+In particular, using the Kabatiansky--Levenshtein bound $\tau(n)\le 2^{0.401n(1+o(1))}$,
+\[
+  M(n) \;=\; O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\; 2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right).
+\]
+This is a polynomial-factor improvement over the greedy bound $M(n)\le\tau(n)+1$.
+\end{theorem}
+
+The proof rests on three ingredients, which we state as lemmas.
+
+\begin{lemma}[de Bruijn--Erd\H{o}s Compactness]\label{lem:compactness}
+$M(n) = \sup\bigl\{\chi(G_X) : X\subset\mathbb{R}^n\text{ finite},\;\|x-y\|\ge 1\ \forall x\ne y\in X\bigr\}.$
+In other words, $M(n)$ is achieved as a supremum over \emph{finite} packings.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{P}$ be any unit sphere packing in $\mathbb{R}^n$ (possibly infinite), and let $G=G_{\mathcal{P}}$ be its tangency graph.  Every finite subgraph of $G$ is the tangency graph of a finite sub-packing, hence has chromatic number at most $\sup_{\text{finite }X}\chi(G_X)=:K$.  By the de Bruijn--Erd\H{o}s theorem~\cite{dBE1951}, an infinite graph whose every finite subgraph is $K$-colorable is itself $K$-colorable, so $\chi(G)\le K$.  Hence $M(n)\le K$; the reverse inequality $M(n)\ge K$ is trivial.
+\end{proof}
+
+\begin{lemma}[Geometric Graph Bounds]\label{lem:graph-bounds}
+For every finite unit sphere packing $X\subset\mathbb{R}^n$ (centres with pairwise distance $\ge 1$), the tangency graph $G_X$ satisfies:
+\begin{enumerate}
+  \item[\textup{(a)}] \textup{(Degree bound)} $\Delta(G_X)\le\tau(n)$, the $n$-dimensional kissing number.
+  \item[\textup{(b)}] \textup{(Clique bound)} $\omega(G_X)\le n+1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\textbf{(a).} The neighbours of a centre $v\in X$ in $G_X$ are the centres $u\in X$ with $\|u-v\|=1$, all lying on the unit sphere $S^{n-1}(v)$ of radius $1$ centred at $v$, and pairwise at distance $\ge 1$.  Translating to $v=0$, this is a set of unit-sphere points with pairwise angular separation $\ge 60°$, i.e.\ a kissing configuration.  By definition of $\tau(n)$, the size of any kissing configuration is at most $\tau(n)$.
+
+\textbf{(b).} A $k$-clique in $G_X$ is a set $\{x_1,\ldots,x_k\}\subset X$ with $\|x_i-x_j\|=1$ for all $i\ne j$ — an equidistant set of diameter $1$ in $\mathbb{R}^n$.  Setting $y_i=x_i-x_1$ for $i\ge 2$, we have $\|y_i\|=1$ and
+\[
+  \|y_i-y_j\|^2 = \|x_i-x_j\|^2 = 1, \quad i\ne j\ge 2,
+\]
+which gives $\langle y_i,y_j\rangle = \tfrac{1}{2}$ for all $i\ne j\ge 2$.  The Gram matrix $M$ of $y_2,\ldots,y_k$ satisfies $M_{ii}=1$ and $M_{ij}=\tfrac{1}{2}$ for $i\ne j$, i.e.\ $M=\tfrac{1}{2}I+\tfrac{1}{2}J$ where $J$ is the $(k-1)\times(k-1)$ all-ones matrix.  The eigenvalues of $M$ are $\tfrac{k}{2}$ (once) and $\tfrac{1}{2}$ ($k-2$ times), all positive, so $M$ is positive definite and has rank $k-1$.  Since $y_2,\ldots,y_k\in\mathbb{R}^n$, we need $k-1\le n$, i.e.\ $k\le n+1$.
+\end{proof}
+
+\begin{lemma}[Bonamy--Kelly--Nelson--Postle, 2022~{\cite{BKNP2022}}]\label{lem:bknp}
+There exists an absolute constant $C_0>0$ such that the following holds.  For all $\omega\ge 3$ and all $\Delta\ge \omega^{C_0}$, every graph $G$ with $\Delta(G)\le\Delta$ and $\omega(G)\le\omega$ satisfies
+\[
+  \chi(G)\;\le\; 72\,\Delta\,\sqrt{\frac{\ln\omega}{\ln\Delta}}.
+\]
+\end{lemma}
+
+\begin{proof}[Proof of Theorem~\ref{thm:upper-bound}]
+By Lemma~\ref{lem:compactness}, $M(n)=\sup_{\text{finite }X}\chi(G_X)$.  Fix a finite unit sphere packing $X\subset\mathbb{R}^n$.  By Lemma~\ref{lem:graph-bounds}, $G_X$ has $\Delta(G_X)\le\tau(n)$ and $\omega(G_X)\le n+1$.
+
+We verify the hypothesis of Lemma~\ref{lem:bknp} with $\Delta=\tau(n)$ and $\omega=n+2$: since $\tau(n)\ge 2^{0.2075n(1+o(1))}$ by the Kabatiansky--Levenshtein lower bound~\cite{KL1978}, we have $\ln\tau(n)\ge 0.2075n\ln 2$, while $\ln(n+2)^{C_0}=O(n)$, so $\tau(n)\ge(n+2)^{C_0}$ for all sufficiently large $n$.  Hence
+\[
+  \chi(G_X) \;\le\; 72\,\tau(n)\,\sqrt{\frac{\ln(n+2)}{\ln\tau(n)}}.
+\]
+Taking the supremum over all finite $X$ gives the first bound.
+
+For the asymptotic form, since $\ln\tau(n)\le 0.401n\ln 2+o(n)$ (upper KL bound~\cite{KL1978}),
+\[
+  \sqrt{\frac{\ln(n+2)}{\ln\tau(n)}} = O\!\left(\sqrt{\frac{\log n}{n}}\right),
+\]
+giving $M(n)=O(\tau(n)\sqrt{\log n/n})=2^{0.401n(1+o(1))}\cdot O(\sqrt{\log n/n})$.
+
+To see this is an improvement over greedy: the ratio of the new bound to $\tau(n)$ is $O(\sqrt{\log n/n})\to 0$, so the new bound is $o(\tau(n))$ and hence $o(M_{\mathrm{greedy}}(n))$.
+\end{proof}
+
+\begin{remark}
+The key geometric input is $\omega(G_X)\le n+1$, which contrasts sharply with $\tau(n)\sim 2^{0.401n}$.  The logarithmic ratio $\ln\omega/\ln\Delta\sim (\log n)/(0.401n)\to 0$ is what drives the improvement.  The de Bruijn--Erd\H{o}s step (Lemma~\ref{lem:compactness}) is essential: the Bonamy--Kelly--Nelson--Postle theorem is a finite-graph result, and the transfer to arbitrary (possibly infinite) packings requires the compactness principle.
+\end{remark}

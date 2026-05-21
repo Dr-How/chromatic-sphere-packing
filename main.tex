@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,xcolor}
+\input{_macros}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Spectral Lower Bound and an Improved Upper Bound\\ for the Chromatic Number of Unit Sphere Packings}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{unit sphere packing} in $\mathbb{R}^n$ consists of unit spheres of radius $\tfrac12$ with pairwise disjoint interiors, equivalently a set of centres with pairwise distance $\ge 1$.  The \emph{tangency graph} connects pairs of centres at distance exactly $1$, and the \emph{chromatic number} of a packing is the chromatic number of its tangency graph.  Let $M(n)$ denote the supremum of chromatic numbers of unit sphere packings in $\mathbb{R}^n$.
+
+\textbf{Lower bound.}  We give a self-contained spectral proof that
+\[
+  \limsup_{n\to\infty}\;\frac{M(n)-n}{n^{2/3}}\;\ge\;1,
+\]
+and more precisely $M(d_q)\ge q^3+1 = d_q+(q^2-q+1)$ for every prime power $q\ge 2$, where $d_q=q^3-q^2+q$.  The proof combines: (i) a \emph{Spectral Realization Theorem} showing that any connected $k$-regular graph with least adjacency eigenvalue $s<-1$ of multiplicity $g$ embeds as the tangency graph of a unit sphere packing in $\mathbb{R}^{v-g-1}$, and (ii) the classical \emph{Hoffman ratio bound} $\chi(G)\ge 1-k/s$.  The witness is the complement of the collinearity graph of $\mathrm{GQ}(q,q^2)$.
+
+\textbf{Upper bound.}  We prove an improved upper bound
+\[
+  M(n)\;\le\; O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\;2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right),
+\]
+where $\tau(n)$ is the $n$-dimensional kissing number.  This improves the standard greedy bound $M(n)\le\tau(n)+1$ by a polynomial factor $O(\sqrt{n/\log n})\to\infty$.  The key inputs are: the geometric fact that the clique number of any packing's tangency graph satisfies $\omega\le n+1$ (equidistant-set bound), the degree bound $\Delta\le\tau(n)$, and the Bonamy--Kelly--Nelson--Postle theorem on coloring graphs with bounded maximum degree and small clique number.
+
+\textbf{Barrier.}  A systematic barrier theorem (Section~6) proves that the four classical spectral families from finite geometry (Kneser graphs, triangular graphs, symplectic polar graphs, and complements of hexagon point graphs) all have Hoffman bound $H(G)\le d$, so none can improve the lower-bound surplus beyond $O(d^{2/3})$ within this framework.
+\end{abstract}
+
+\section*{Problem}
+
+Throughout this paper, a \emph{unit sphere} has radius $\tfrac{1}{2}$ (diameter $1$).  Two such spheres have disjoint interiors if and only if their centres are at distance $\ge 1$; they are \emph{tangent} when their centres are at distance exactly $1$.
+
+A \emph{unit sphere packing} in $\mathbb{R}^n$ is a set of unit spheres (radius $\tfrac{1}{2}$) with pairwise disjoint interiors, equivalently a set of points (sphere centres) in $\mathbb{R}^n$ with pairwise distance $\ge 1$. The \emph{tangency graph} of the packing takes the centres as vertices and connects pairs at distance exactly $1$ by an edge. A \emph{colouring} assigns a colour to each sphere so that tangent pairs receive different colours; the \emph{chromatic number} of the packing is the minimum number of colours needed.
+
+Denote by $M(n)$ the supremum of chromatic numbers of all unit sphere packings (finite or infinite) in $\mathbb{R}^n$. The current state of knowledge is:
+\begin{itemize}
+  \item \textit{Upper bound}: $M(n)\le \tau(n)+1\le 2^{(0.401+o(1))n}$ by greedy colouring and the Kabatiansky--Levenshtein bound on the kissing number~\cite{KL1978}.
+  \item \textit{Lower bound}: $M(n)\ge n+\Omega(n^{2/3})$ for an infinite sequence of dimensions $n$, first proved by Hao Chen~\cite{Chen2015} via generalized quadrangles.
+\end{itemize}
+We provide: (a) a clean spectral proof of the lower bound establishing the explicit constant $\limsup_{n\to\infty}(M(n)-n)/n^{2/3}\ge 1$; (b) an improved upper bound $M(n)=O(\tau(n)\sqrt{\log n/n})$, a polynomial-factor improvement over greedy; and (c) a barrier theorem for the lower-bound framework.
+
+\section*{Main Results}
+
+\input{section_1_spectral_realization}
+\input{section_2_hoffman_bound}
+\input{section_3_spectral_family}
+\input{section_4_packing_bounds}
+\input{section_5_interpolation}
+\input{section_6_barrier}
+\input{section_7_upper_bound}
+
+\begin{corollary}[Main Result]\label{cor:main}
+The supremum $M(n)$ of chromatic numbers of unit sphere packings in $\mathbb{R}^n$ satisfies:
+\begin{enumerate}
+\item[\textup{(i)}] \textbf{Lower bound:}
+\[
+  \limsup_{n\to\infty}\;\frac{M(n)-n}{n^{2/3}}\;\ge\;1.
+\]
+In particular, $(M(n)-n)/n^{2/3}$ is at least $(1-1/q+1/q^2)^{1/3}\to 1$ along $n=d_q=q^3-q^2+q$ as $q\to\infty$ through prime powers.
+\item[\textup{(ii)}] \textbf{Upper bound:}
+\[
+  M(n)\;=\;O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\;2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right).
+\]
+\item[\textup{(iii)}] \textbf{Barrier:} By the Barrier Theorem~\textup{(Theorem~\ref{thm:barrier})}, none of the four named classical spectral families from finite geometry (Kneser, triangular, symplectic polar, hexagon complement) achieves a positive surplus $H(G)-d>0$ within the Hoffman framework.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+\textbf{Lower bound chain.}
+By the Spectral Realization Theorem (Theorem~\ref{thm:spectral-realization}) and the explicit spectral computation in Theorem~\ref{thm:gq-family}, the complement $G_q$ of the collinearity graph of $\mathrm{GQ}(q,q^2)$ embeds as the tangency graph of a unit sphere packing in $\mathbb{R}^{d_q}$, so
+\[
+M(d_q)\;\ge\;\chi(G_q).
+\]
+By the Hoffman Bound (Theorem~\ref{thm:hoffman}) and the eigenvalues $k_q=q^4$, $s_q=-q$ of $G_q$,
+\[
+\chi(G_q)\;\ge\;1-\frac{k_q}{s_q}=q^3+1.
+\]
+Hence $M(d_q)\ge q^3+1 = d_q+(q^2-q+1)$ (Theorem~\ref{thm:main-packing}).
+
+\textbf{Limsup.}
+By Theorem~\ref{thm:limsup}(2), taking $q\to\infty$ through prime powers,
+\[
+\frac{M(d_q)-d_q}{d_q^{2/3}}\;\ge\;\left(1-\frac{1}{q}+\frac{1}{q^2}\right)^{1/3}\;\to\;1,
+\]
+which gives $\limsup_{n\to\infty}(M(n)-n)/n^{2/3}\ge 1$.
+
+\textbf{Upper bound.}  This is Theorem~\ref{thm:upper-bound}.
+
+\textbf{Barrier.}  This is Theorem~\ref{thm:barrier}.
+\end{proof}
+
+\begin{thebibliography}{9}
+\bibitem{Chen2015}
+H.~Chen,
+\textit{Ball packings with high chromatic numbers from strongly regular graphs},
+Discrete Mathematics \textbf{340} (2017), no.~7.
+arXiv:1502.02070.
+
+\bibitem{BvM2022}
+A.~E.~Brouwer and H.~Van Maldeghem,
+\textit{Strongly Regular Graphs},
+Cambridge University Press, 2022.
+
+\bibitem{Hoffman1970}
+A.~J.~Hoffman,
+\textit{On eigenvalues and colorings of graphs},
+in Graph Theory and its Applications (B.~Harris, ed.), Academic Press, 1970, pp.\ 79--91.
+
+\bibitem{KL1978}
+G.~A.~Kabatiansky and V.~I.~Levenshtein,
+\textit{Bounds for packings on the sphere and in space},
+Problemy Peredachi Informatsii \textbf{14} (1978), 3--25.
+
+\bibitem{PT1984}
+S.~E.~Payne and J.~A.~Thas,
+\textit{Finite Generalized Quadrangles},
+Research Notes in Mathematics \textbf{110}, Pitman, Boston, 1984.
+Second edition: EMS Series of Lectures in Mathematics, European Mathematical Society, Z\"{u}rich, 2009.
+
+\bibitem{dBE1951}
+N.~G.~de Bruijn and P.~Erd\H{o}s,
+\textit{A colour problem for infinite graphs and a problem in the theory of relations},
+Indagationes Mathematicae \textbf{13} (1951), 369--373.
+
+\bibitem{BKNP2022}
+M.~Bonamy, T.~Kelly, P.~Nelson, and L.~Postle,
+\textit{Bounding $\chi$ by a fraction of $\Delta$ for graphs without large cliques},
+Journal of the European Mathematical Society \textbf{26} (2024), no.~5, 1451--1499.
+arXiv:1803.01051.
+\end{thebibliography}
+
+\end{document}

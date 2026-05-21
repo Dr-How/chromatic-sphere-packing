@@ -1,0 +1,717 @@
+\documentclass{article}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,xcolor}
+\newcommand{\verifierissue}[1]{%
+  \par\noindent\textcolor{red}{\textbf{[Verifier issue:]}\ #1}\par\medskip}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Spectral Lower Bound and an Improved Upper Bound\\ for the Chromatic Number of Unit Sphere Packings}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{unit sphere packing} in $\mathbb{R}^n$ consists of unit spheres of radius $\tfrac12$ with pairwise disjoint interiors, equivalently a set of centres with pairwise distance $\ge 1$.  The \emph{tangency graph} connects pairs of centres at distance exactly $1$, and the \emph{chromatic number} of a packing is the chromatic number of its tangency graph.  Let $M(n)$ denote the supremum of chromatic numbers of unit sphere packings in $\mathbb{R}^n$.
+
+\textbf{Lower bound.}  We give a self-contained spectral proof that
+\[
+  \limsup_{n\to\infty}\;\frac{M(n)-n}{n^{2/3}}\;\ge\;1,
+\]
+and more precisely $M(d_q)\ge q^3+1 = d_q+(q^2-q+1)$ for every prime power $q\ge 2$, where $d_q=q^3-q^2+q$.  The proof combines: (i) a \emph{Spectral Realization Theorem} showing that any connected $k$-regular graph with least adjacency eigenvalue $s<-1$ of multiplicity $g$ embeds as the tangency graph of a unit sphere packing in $\mathbb{R}^{v-g-1}$, and (ii) the classical \emph{Hoffman ratio bound} $\chi(G)\ge 1-k/s$.  The witness is the complement of the collinearity graph of $\mathrm{GQ}(q,q^2)$.
+
+\textbf{Upper bound.}  We prove an improved upper bound
+\[
+  M(n)\;\le\; O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\;2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right),
+\]
+where $\tau(n)$ is the $n$-dimensional kissing number.  This improves the standard greedy bound $M(n)\le\tau(n)+1$ by a polynomial factor $O(\sqrt{n/\log n})\to\infty$.  The key inputs are: the geometric fact that the clique number of any packing's tangency graph satisfies $\omega\le n+1$ (equidistant-set bound), the degree bound $\Delta\le\tau(n)$, and the Bonamy--Kelly--Nelson--Postle theorem on coloring graphs with bounded maximum degree and small clique number.
+
+\textbf{Barrier.}  A systematic barrier theorem (Section~6) proves that the four classical spectral families from finite geometry (Kneser graphs, triangular graphs, symplectic polar graphs, and complements of hexagon point graphs) all have Hoffman bound $H(G)\le d$, so none can improve the lower-bound surplus beyond $O(d^{2/3})$ within this framework.
+\end{abstract}
+
+\section*{Problem}
+
+Throughout this paper, a \emph{unit sphere} has radius $\tfrac{1}{2}$ (diameter $1$).  Two such spheres have disjoint interiors if and only if their centres are at distance $\ge 1$; they are \emph{tangent} when their centres are at distance exactly $1$.
+
+A \emph{unit sphere packing} in $\mathbb{R}^n$ is a set of unit spheres (radius $\tfrac{1}{2}$) with pairwise disjoint interiors, equivalently a set of points (sphere centres) in $\mathbb{R}^n$ with pairwise distance $\ge 1$. The \emph{tangency graph} of the packing takes the centres as vertices and connects pairs at distance exactly $1$ by an edge. A \emph{colouring} assigns a colour to each sphere so that tangent pairs receive different colours; the \emph{chromatic number} of the packing is the minimum number of colours needed.
+
+Denote by $M(n)$ the supremum of chromatic numbers of all unit sphere packings (finite or infinite) in $\mathbb{R}^n$. The current state of knowledge is:
+\begin{itemize}
+  \item \textit{Upper bound}: $M(n)\le \tau(n)+1\le 2^{(0.401+o(1))n}$ by greedy colouring and the Kabatiansky--Levenshtein bound on the kissing number~\cite{KL1978}.
+  \item \textit{Lower bound}: $M(n)\ge n+\Omega(n^{2/3})$ for an infinite sequence of dimensions $n$, first proved by Hao Chen~\cite{Chen2015} via generalized quadrangles.
+\end{itemize}
+We provide: (a) a clean spectral proof of the lower bound establishing the explicit constant $\limsup_{n\to\infty}(M(n)-n)/n^{2/3}\ge 1$; (b) an improved upper bound $M(n)=O(\tau(n)\sqrt{\log n/n})$, a polynomial-factor improvement over greedy; and (c) a barrier theorem for the lower-bound framework.
+
+\section*{Main Results}
+
+\subsection*{Section 1: Spectral Realization as a Unit Packing}
+
+\begin{theorem}[Spectral Realization]
+\label{thm:spectral-realization}
+Let $G=(V,E)$ be a finite connected non-complete $k$-regular graph on $v$ vertices with adjacency matrix $A$, least eigenvalue $s<-1$ of multiplicity $g$, and $d=v-g-1$. Then there exist points $\{p_x : x\in V\}\subset \mathbb{R}^d$ such that
+\[
+  \|p_x-p_y\|=1\quad\text{if }xy\in E,
+  \qquad
+  \|p_x-p_y\|>1\quad\text{if }xy\notin E,\; x\neq y.
+\]
+In particular, the tangency graph of the unit sphere packing $\{p_x\}$ (with minimum inter-centre distance $1$) is exactly $G$.
+\end{theorem}
+
+We need to include one extra positive scale factor. The unscaled matrix $PMP$ gives the right \textbf{relative} distances, but not generally unit edge length unless $s=-2$. We define the scaled Gram matrix accordingly.
+
+\begin{proof}
+Let $\mathbf 1\in\mathbb R^v$ be the all-ones vector, let $J=\mathbf 1\mathbf 1^{\mathsf T}$, and let
+\[
+P=I-\frac{1}{v}J.
+\]
+Thus $P$ is the orthogonal projection onto $\mathbf 1^\perp$. Set
+\[
+M=\frac{1}{-s}(A-sI),
+\qquad
+\alpha=\frac{s}{2(s+1)}.
+\]
+Since $s<-1$, we have $\alpha>0$. We will use
+\[
+B=\alpha PMP
+\]
+as the Gram matrix.
+
+Because $s$ is the least eigenvalue of the symmetric matrix $A$, every eigenvalue of $A-sI$ is nonnegative. Since $-s>0$, it follows that $M\succeq 0$. Hence for every $z\in\mathbb R^v$,
+\[
+z^{\mathsf T}PMPz=(Pz)^{\mathsf T}M(Pz)\ge 0,
+\]
+so $PMP\succeq 0$, and therefore $B\succeq 0$.
+
+\textbf{Rank computation.} Since $G$ is $k$-regular, $A\mathbf 1=k\mathbf 1$. Moreover, because $G$ is connected, the $k$-eigenspace is exactly $\operatorname{span}\{\mathbf 1\}$. (Proof: if $Au=ku$ and $u_x:=u(x)$ achieves its maximum at some vertex $x_0$, then $ku_{x_0}=\sum_{y\sim x_0}u_y\le ku_{x_0}$ with equality only if all neighbours of $x_0$ also achieve the maximum; by connectedness all entries of $u$ equal $u_{x_0}$, so $u\in\operatorname{span}\{\mathbf 1\}$.)
+
+Take an orthogonal eigenbasis of $A$. The vector $\mathbf 1$ contributes one eigenvector with eigenvalue $k$. The eigenspace for the least eigenvalue $s$ has dimension $g$ and lies inside $\mathbf 1^\perp$ (because for any eigenvector $u$ with $Au = s u$ and $s \ne k$, we have $k(1^T u) = (k\mathbf{1})^T u = (A\mathbf{1})^T u = \mathbf{1}^T A u = s(\mathbf{1}^T u)$, so $(k-s)(\mathbf{1}^T u)=0$, hence $\mathbf{1}^T u = 0$). On $\mathbf 1^\perp$, the projection $P$ acts as the identity, so if $u\perp \mathbf 1$ and $Au=\lambda u$, then
+\[
+PMPu=Mu=\frac{\lambda-s}{-s}u.
+\]
+This eigenvalue is $0$ exactly when $\lambda=s$, and is positive when $\lambda>s$. Also, $PMP\mathbf 1=0$. Therefore,
+\[
+\ker(PMP)=\operatorname{span}\{\mathbf 1\}\oplus \ker(A-sI),
+\]
+so $\dim\ker(PMP)=1+g$, and
+\[
+\operatorname{rank}(B)=\operatorname{rank}(PMP)=v-(1+g)=v-g-1=d.
+\]
+
+\textbf{Gram factorization.} Since $B$ is a real positive-semidefinite matrix of rank $d$, it admits a Gram factorisation: let $B=U\Delta U^{\mathsf T}$ be its eigendecomposition, where $\Delta=\mathrm{diag}(\beta_1,\ldots,\beta_d,0,\ldots,0)$ with $\beta_1,\ldots,\beta_d>0$ the positive eigenvalues, and $U$ orthogonal. Set $F=[{\sqrt{\beta_1}}\,u_1\mid \cdots\mid {\sqrt{\beta_d}}\,u_d]\in\mathbb R^{v\times d}$, so that $FF^{\mathsf T}=\sum_{i=1}^d\beta_i u_i u_i^{\mathsf T}=B$. For each vertex $x\in V$, define $p_x\in\mathbb R^d$ to be the $x$-th row of $F$. Then $B_{xy}=\langle p_x,p_y\rangle$.
+
+\textbf{Distance computation.} Let
+\[
+\rho=\frac{k-s}{-s}.
+\]
+Every row sum of $M$ equals $\rho$: since $\sum_y A_{xy}=k$ (regularity) and $\sum_y I_{xy}=1$,
+\[
+\sum_y M_{xy}=\frac{1}{-s}(k-s)=\rho.
+\]
+Since $M$ is symmetric, every column sum also equals $\rho$. Therefore $M\mathbf{1}=\rho\mathbf{1}$, giving $MJ=\rho J$ and $JM=\rho J$, so $JMJ=J(\rho\mathbf{1}\mathbf{1}^T)=\rho v J$. Expanding:
+\[
+PMP=\Bigl(I-\tfrac{1}{v}J\Bigr)M\Bigl(I-\tfrac{1}{v}J\Bigr)
+=M-\tfrac{1}{v}MJ-\tfrac{1}{v}JM+\tfrac{1}{v^2}JMJ
+=M-\tfrac{\rho}{v}J-\tfrac{\rho}{v}J+\tfrac{\rho}{v}J
+=M-\frac{\rho}{v}J.
+\]
+For every vertex $x$, $M_{xx}=\frac{-s}{-s}=1$. For distinct vertices $x\neq y$,
+\[
+M_{xy}=
+\begin{cases}
+\dfrac{1}{-s}, & xy\in E,\\[4pt]
+0, & xy\notin E.
+\end{cases}
+\]
+Therefore $(B_0)_{xx}=1-\frac{\rho}{v}$ (where $B_0=PMP$), and for $x\neq y$,
+\[
+(B_0)_{xy}=
+\begin{cases}
+-\dfrac{1}{s}-\dfrac{\rho}{v}, & xy\in E,\\[6pt]
+-\dfrac{\rho}{v}, & xy\notin E.
+\end{cases}
+\]
+Now let $x\neq y$. Since $B=\alpha B_0$ is the Gram matrix of the $p_x$'s,
+\[
+\|p_x-p_y\|^2 = B_{xx}+B_{yy}-2B_{xy}.
+\]
+
+If $xy\in E$:
+\[
+\|p_x-p_y\|^2
+=\alpha\Bigl[2\Bigl(1-\tfrac{\rho}{v}\Bigr)-2\Bigl(-\tfrac{1}{s}-\tfrac{\rho}{v}\Bigr)\Bigr]
+=\alpha\Bigl(2+\tfrac{2}{s}\Bigr)
+=\frac{s}{2(s+1)}\cdot\frac{2(s+1)}{s}=1.
+\]
+Thus $\|p_x-p_y\|=1$ whenever $xy\in E$.
+
+If $xy\notin E$, $x\neq y$:
+\[
+\|p_x-p_y\|^2
+=\alpha\Bigl[2\Bigl(1-\tfrac{\rho}{v}\Bigr)-2\Bigl(-\tfrac{\rho}{v}\Bigr)\Bigr]
+=2\alpha=\frac{s}{s+1}.
+\]
+Since $s<-1$, write $s=-1-\varepsilon$ with $\varepsilon>0$; then $\frac{s}{s+1}=\frac{1+\varepsilon}{\varepsilon}>1$. Hence $\|p_x-p_y\|>1$ whenever $xy\notin E$ and $x\neq y$.
+
+Therefore the point set $\{p_x:x\in V\}\subset\mathbb R^d$ has minimum pairwise distance at least $1$, with equality exactly on edges of $G$. Consequently, the tangency graph of this unit sphere packing is exactly $G$.
+\end{proof}
+
+\subsection*{Section 2: Hoffman Lower Bound for Chromatic Number}
+
+\begin{theorem}[Hoffman Bound]
+\label{thm:hoffman}
+Let $G$ be a finite $k$-regular graph on $v$ vertices with least adjacency eigenvalue $s<0$. Then
+\[
+  \chi(G) \;\ge\; 1-\frac{k}{s}.
+\]
+\end{theorem}
+
+\begin{proof}
+For reference, the inequality to be proved is the standard Hoffman lower bound on the chromatic number: $\chi(G)\ge 1-\lambda_{1}/\lambda_{n}$, where $\lambda_{1}$ and $\lambda_{n}$ are the largest and smallest adjacency eigenvalues. We prove the stated $k$-regular case directly.
+
+Let $A$ be the adjacency matrix of $G$, and let $\mathbf{1}\in\mathbb{R}^{v}$ be the all-ones vector. Since $G$ is $k$-regular, $A\mathbf{1}=k\mathbf{1}$.
+
+Let $S\subseteq V(G)$ be any independent set, and let $\mathbf{x}$ be its indicator vector. Put $n:=|S|=\mathbf{x}^{T}\mathbf{x}$. If $n=0$, there is nothing to prove, so assume $n>0$.
+
+Decompose $\mathbf{x}$ into its component along $\mathbf{1}$ and its orthogonal component:
+\[
+\mathbf{x}=\frac{n}{v}\mathbf{1}+\mathbf{u},\qquad \mathbf{u}\perp \mathbf{1}.
+\]
+Indeed, $\mathbf{1}^{T}\mathbf{u}=\mathbf{1}^{T}\mathbf{x}-\frac{n}{v}\mathbf{1}^{T}\mathbf{1}=n-\frac{n}{v}v=0$.
+
+Because $A$ is real symmetric, it has an orthonormal eigenbasis. Every eigenvalue of $A$ is at least $s$, so for every vector $\mathbf{u}\perp \mathbf{1}$ we have $\mathbf{u}^{T}A\mathbf{u}\ge s\|\mathbf{u}\|^{2}$.
+
+Now compute $\mathbf{x}^{T}A\mathbf{x}$. Since $S$ is independent, no edge has both endpoints in $S$, so $\mathbf{x}^{T}A\mathbf{x}=0$. On the other hand,
+\[
+\mathbf{x}^{T}A\mathbf{x}
+=\left(\frac{n}{v}\mathbf{1}+\mathbf{u}\right)^{T}A\left(\frac{n}{v}\mathbf{1}+\mathbf{u}\right)
+=\frac{n^{2}}{v^{2}}\mathbf{1}^{T}A\mathbf{1}+\frac{2n}{v}\mathbf{1}^{T}A\mathbf{u}+\mathbf{u}^{T}A\mathbf{u}.
+\]
+Since $A\mathbf{1}=k\mathbf{1}$ and $\mathbf{u}\perp\mathbf{1}$, we have $\mathbf{1}^{T}A\mathbf{1}=kv$ and $\mathbf{1}^{T}A\mathbf{u}=(A\mathbf{1})^{T}\mathbf{u}=k\mathbf{1}^{T}\mathbf{u}=0$.
+Therefore
+\[
+0=\mathbf{x}^{T}A\mathbf{x}=\frac{kn^{2}}{v}+\mathbf{u}^{T}A\mathbf{u}.
+\]
+Using $\mathbf{u}^{T}A\mathbf{u}\ge s\|\mathbf{u}\|^{2}$ gives
+\[
+0\ge\frac{kn^{2}}{v}+s\|\mathbf{u}\|^{2}.
+\]
+Now $\|\mathbf{u}\|^{2}=\|\mathbf{x}-\frac{n}{v}\mathbf{1}\|^{2}=\|\mathbf{x}\|^{2}-\frac{n^{2}}{v}=n-\frac{n^{2}}{v}=\frac{n(v-n)}{v}$.
+Hence
+\[
+0\ge\frac{kn^{2}}{v}+s\frac{n(v-n)}{v}.
+\]
+Multiplying by $\frac{v}{n}>0$ yields
+\[
+0\ge kn+s(v-n)=(k-s)n+sv.
+\]
+Thus $(k-s)n\le -sv$. Since $s<0$ and $k-s>0$, we obtain
+\[
+n\le \frac{-sv}{k-s}.
+\]
+So every independent set in $G$ has size at most $\frac{-sv}{k-s}$.
+
+Now let $V_{1},\dots,V_{\chi}$ be the color classes of an optimal proper coloring of $G$, where $\chi=\chi(G)$. Each $V_{i}$ is an independent set, so $|V_{i}|\le \frac{-sv}{k-s}$ for each $i$. Since the color classes partition $V(G)$,
+\[
+v=\sum_{i=1}^{\chi}|V_{i}|\le\chi\cdot\frac{-sv}{k-s}.
+\]
+Dividing by $v>0$ gives $1\le \chi\cdot\frac{-s}{k-s}$. Therefore
+\[
+\chi\ge\frac{k-s}{-s}=1-\frac{k}{s}.\qquad\square
+\]
+\end{proof}
+
+\subsection*{Section 3: The Generalized Quadrangle Construction}
+
+\begin{theorem}[Spectral Family from $\mathrm{GQ}(q,q^2)$]
+\label{thm:gq-family}
+For every prime power $q\ge 2$, let $G_q$ denote the complement of the point-collinearity graph of the generalized quadrangle $\mathrm{GQ}(q,q^2)$. Then:
+\begin{enumerate}
+  \item $G_q$ has $v_q=(q+1)(q^3+1)$ vertices and is regular of degree $k_q=q^4$.
+  \item The least adjacency eigenvalue of $G_q$ is $s_q=-q$, with multiplicity $g_q=q^4+q^2$, and the embedding dimension is $d_q:=v_q-g_q-1=q^3-q^2+q$.
+  \item The Hoffman lower bound satisfies
+    \[1-\frac{k_q}{s_q}=q^3+1=d_q+(q^2-q+1).\]
+  \item For every prime power $q\ge 2$,
+    \[1-\frac{k_q}{s_q}\ge d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3}.\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{Q}$ be a generalized quadrangle of order $(q,q^2)$, and let $\Gamma_q$ be its point-collinearity graph. Thus two distinct points are adjacent in $\Gamma_q$ exactly when they are collinear in $\mathcal{Q}$. Generalized quadrangles of order $(q,q^2)$ exist for all prime powers $q$: the classical realization is the \emph{elliptic quadric} $Q^-(5,q)$ in $\mathrm{PG}(5,q)$, which has $(q^3+1)(q+1)$ points and forms a $\mathrm{GQ}(q,q^2)$ (see \cite{PT1984} and \cite{BvM2022}). The Hermitian variety $H(3,q^2)$ gives $\mathrm{GQ}(q^2,q)$, not $\mathrm{GQ}(q,q^2)$.
+
+The collinearity graph of a $\mathrm{GQ}(s,t)$ is strongly regular with parameters \cite{PT1984}
+\[
+v=(s+1)(st+1),\quad k=s(t+1),\quad \lambda=s-1,\quad \mu=t+1,
+\]
+and nontrivial eigenvalues $s-1$ (multiplicity $st(s+1)(t+1)/(s+t)$) and $-(t+1)$ (multiplicity $s^2(st+1)/(s+t)$).
+
+Setting $s=q$ and $t=q^2$:
+\[
+v=(q+1)(q^3+1),\quad \kappa=q(q^2+1),\quad \lambda=q-1,\quad \mu=q^2+1,
+\]
+with nontrivial eigenvalues
+\[
+r=q-1,\qquad s_0=-(q^2+1).
+\]
+
+\textbf{Connectedness.} If two points are collinear, they are adjacent in $\Gamma_q$. If two points are not collinear, they have exactly $\mu=q^2+1>0$ common neighbours. Hence every pair of vertices is at distance at most $2$ in $\Gamma_q$, so $\Gamma_q$ is connected. For any connected $k$-regular graph, the degree eigenvalue $k$ has multiplicity $1$: if $Au=\kappa u$ then the maximum-entry argument (same as in Section~1) shows $u\in\operatorname{span}\{\mathbf{1}\}$, so the $\kappa$-eigenspace is 1-dimensional.
+
+\textbf{Multiplicity computation.} Let the multiplicities of $r$ and $s_0$ be $f$ and $g_0$ respectively. The trace of the adjacency matrix of a simple graph (no self-loops) equals $0$ since $\operatorname{tr}(A)=\sum_x A_{xx}=0$; by the spectral theorem, this equals the sum of eigenvalues with multiplicity: $\kappa\cdot 1 + r\cdot f + s_0\cdot g_0 = 0$. Combined with $1+f+g_0=v$, the trace condition is $\kappa+(q-1)f-(q^2+1)g_0=0$. Using $g_0=v-1-f$:
+\[
+\kappa+(q-1)f-(q^2+1)(v-1-f)=0 \implies (q^2+q)f=(q^2+1)(v-1)-\kappa.
+\]
+Substituting $v-1=q^4+q^3+q$ and $\kappa=q(q^2+1)$:
+\[
+f=\frac{(q^2+1)(q^4+q^3+q)-q(q^2+1)}{q^2+q}
+=\frac{(q^2+1)(q^4+q^3)}{q(q+1)}
+=q^2(q^2+1)=q^4+q^2.
+\]
+Hence $g_0=v-1-f=(q^4+q^3+q)-(q^4+q^2)=q^3-q^2+q$.
+
+\textbf{Complement eigenvalues.} Let $G_q=\overline{\Gamma_q}$ with adjacency matrix $B=J-I-A$. Since $\Gamma_q$ is $\kappa$-regular, $B\mathbf{1}=(v-1-\kappa)\mathbf{1}$, so $G_q$ has degree
+\[
+k_q=v-1-\kappa=(q^4+q^3+q)-(q^3+q)=q^4.
+\]
+This proves item (1).
+
+For the non-principal eigenvalues: if $Au=\theta u$ with $\theta\ne\kappa$, then $\kappa(\mathbf{1}^Tu)=\mathbf{1}^T A u=\theta(\mathbf{1}^Tu)$, so $\mathbf{1}^Tu=0$. Thus all non-principal eigenvectors lie in $\mathbf{1}^\perp$, and for $u\perp\mathbf{1}$ with $Au=\theta u$: $Bu=(J-I-A)u=0-u-\theta u=(-1-\theta)u$. Hence $G_q$ has eigenvalues:
+\begin{itemize}
+  \item $q^4$ (multiplicity $1$, principal eigenvalue),
+  \item $-r-1=-q$ (multiplicity $f=q^4+q^2$),
+  \item $-s_0-1=q^2$ (multiplicity $g_0=q^3-q^2+q$).
+\end{itemize}
+
+For $q\ge 2$, the three eigenvalues satisfy $q^4>0$, $q^2>0$, and $-q<0$. Hence the least adjacency eigenvalue of $G_q$ is $s_q=-q$ with multiplicity $g_q=f=q^4+q^2$.
+
+\textbf{Embedding dimension.}
+\[
+d_q:=v_q-g_q-1=(q^4+q^3+q+1)-(q^4+q^2)-1=q^3-q^2+q.
+\]
+
+\textbf{Non-completeness and connectivity of $G_q$.} We have $k_q=q^4<q^4+q^3+q=v_q-1$, so $G_q$ is not complete.
+
+For connectivity, recall that two vertices $x,y$ are \emph{adjacent in $G_q$} if and only if they are \emph{non-collinear in $\mathcal{Q}$}. We show every pair $x\ne y$ has a common neighbour in $G_q$, establishing diameter at most~$2$.
+
+\emph{Case 1: $x$ and $y$ are adjacent in $G_q$} (non-collinear in $\mathcal{Q}$). Then $xy$ is already an edge, and they trivially have a common neighbour if we can find $z\ne x,y$ adjacent to both; the diameter-2 bound suffices for connectivity, but adjacency already gives a path.
+
+\emph{Case 2: $x$ and $y$ are non-adjacent in $G_q$} (collinear in $\mathcal{Q}$). We need a vertex $z$ adjacent to both $x$ and $y$ in $G_q$, i.e., non-collinear with both. In $\mathcal{Q}$, each point has $\kappa=q(q^2+1)$ collinear points, so $x$ is non-collinear with exactly $v-1-\kappa=q^4$ points of $\mathcal{Q}\setminus\{x\}$; call this set $A$. Similarly let $B$ be the $q^4$ points non-collinear with $y$. Since $x$ and $y$ are collinear, $x\notin A$ and $y\notin B$ (a point is always collinear with itself, but the exclusion $\{x,y\}$ merely removes two points from the ambient set). More precisely, $A\subseteq V\setminus\{x\}$ and $B\subseteq V\setminus\{y\}$, and since $x$ is collinear with $y$ we have $x\notin B$ and $y\notin A$. So both $A$ and $B$ are subsets of $V\setminus\{x,y\}$, which has $v_q-2=q^4+q^3+q-1$ elements.
+
+Since $|A|+|B|=2q^4>q^4+q^3+q-1=|V\setminus\{x,y\}|$ for all $q\ge 2$ (because $q^4-(q^3+q-1)=(q-1)(q^3-1)>0$ for $q\ge 2$), by inclusion-exclusion $A\cap B\ne\emptyset$. Any $z\in A\cap B$ is non-collinear with both $x$ and $y$, so $z$ is adjacent to both in $G_q$, giving the path $x$-$z$-$y$.
+
+Thus $G_q$ has diameter at most $2$ and is connected. This proves item (2).
+
+\textbf{Hoffman bound.}
+\[
+1-\frac{k_q}{s_q}=1-\frac{q^4}{-q}=1+q^3=q^3+1.
+\]
+Since $d_q+(q^2-q+1)=(q^3-q^2+q)+(q^2-q+1)=q^3+1$, we have
+\[
+1-\frac{k_q}{s_q}=d_q+(q^2-q+1).
+\]
+This proves item (3).
+
+\textbf{Explicit surplus bound.} Let $A_q=q^2-q+1$, so $d_q=qA_q$ and the surplus equals $A_q$. It suffices to show $A_q\ge(3/4)^{1/3}d_q^{2/3}=(3/4)^{1/3}(qA_q)^{2/3}$. Since $A_q>0$, cubing gives the equivalent inequality $A_q^3\ge(3/4)q^2 A_q^2$, i.e.\ $A_q\ge(3/4)q^2$. Computing:
+\[
+A_q-\frac{3}{4}q^2=q^2-q+1-\frac{3}{4}q^2=\frac{1}{4}q^2-q+1=\frac{(q-2)^2}{4}\ge 0.
+\]
+Therefore $q^2-q+1\ge(3/4)^{1/3}d_q^{2/3}$ for all $q$, and item (4) follows.
+\end{proof}
+
+\subsection*{Section 4: Packing Lower Bounds at the Special Dimensions}
+
+\begin{theorem}[Main Packing Bound]
+\label{thm:main-packing}
+For every prime power $q\ge 2$, the supremum $M(d_q)$ of chromatic numbers of finite unit sphere packings in $\mathbb{R}^{d_q}$ satisfies
+\[
+  M(d_q)\;\ge\; q^3+1 \;=\; d_q + (q^2-q+1) \;\ge\; d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3},
+\]
+where $d_q = q^3-q^2+q$.
+\end{theorem}
+
+\begin{proof}
+Fix a prime power $q\ge 2$. Let $G_q$ be the graph from Section~3. We explicitly verify that $G_q$ meets all the hypotheses of the Spectral Realization Theorem (Section~1):
+\begin{itemize}
+  \item \emph{Finite}: $G_q$ has $v_q=(q+1)(q^3+1)$ vertices (Section~3, item~1).
+  \item \emph{Connected}: proved in Section~3 (diameter-at-most-2 argument via the $|A\cap B|\ne\emptyset$ counting for non-adjacent pairs).
+  \item \emph{Non-complete}: $k_q=q^4<v_q-1$ (Section~3, item~1).
+  \item \emph{$k_q$-regular}: $G_q$ is regular of degree $k_q=q^4$ (Section~3, item~1).
+  \item \emph{Least eigenvalue $s_q=-q<-1$}: since $q\ge 2$, we have $s_q=-q\le -2<-1$ (Section~3, item~2).
+  \item \emph{Multiplicity $g_q$}: $g_q=q^4+q^2$ (Section~3, item~2).
+  \item \emph{Dimension formula}: $d_q=v_q-g_q-1=q^3-q^2+q$ (Section~3, item~2).
+\end{itemize}
+By the Spectral Realization Theorem, there exist points $\{p_x:x\in V(G_q)\}\subset\mathbb{R}^{d_q}$ forming a unit sphere packing in $\mathbb{R}^{d_q}$ whose tangency graph is exactly $G_q$. Therefore
+\[
+M(d_q)\ge\chi(G_q).
+\]
+
+Since $G_q$ is $k_q$-regular with least eigenvalue $s_q=-q<0$, the Hoffman Bound (Section~2) gives
+\[
+\chi(G_q)\ge 1-\frac{k_q}{s_q}=1+q^3=q^3+1.
+\]
+
+By Section~3, item~3 and item~4:
+\[
+q^3+1=d_q+(q^2-q+1)\ge d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3}.
+\]
+
+Combining: $M(d_q)\ge\chi(G_q)\ge q^3+1\ge d_q+(3/4)^{1/3}d_q^{2/3}$.
+\end{proof}
+
+\subsection*{Section 5: Monotonicity and the Limsup Lower Bound}
+
+\begin{theorem}[Monotonicity and Limsup Bound]
+\label{thm:limsup}
+Let $M(n)$ denote the supremum of chromatic numbers of unit sphere packings (finite or infinite) in $\mathbb{R}^n$. Then:
+\begin{enumerate}
+  \item \textbf{(Monotonicity)} $M(n+1)\ge M(n)$ for all $n\ge 1$.
+  \item \textbf{(Limsup lower bound)}
+    \[
+      \limsup_{n\to\infty}\frac{M(n)-n}{n^{2/3}}\ge 1.
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+The constant $1$ is approached but not necessarily achieved: the proof gives $(M(d_q)-d_q)/d_q^{2/3} \ge (1-1/q+1/q^2)^{1/3}$, which tends to $1$ from below as $q\to\infty$.  No upper bound of the form $M(n)-n = O(n^{2/3})$ is claimed here.
+\end{remark}
+
+\begin{remark}
+The gap $d_{q+1}-d_q=3q^2+q+1\sim 3d_q^{2/3}$ is of the same order as the surplus $q^2-q+1\sim d_q^{2/3}$, so a naive monotonicity interpolation does \emph{not} extend the bound $M(n)\ge n+c\,n^{2/3}$ to all large $n$ from this sequence alone.
+\end{remark}
+
+\begin{proof}
+\textbf{(1) Monotonicity.}
+Define the embedding $\iota:\mathbb{R}^n\to\mathbb{R}^{n+1}$ by $\iota(p)=(p,0)$.  For any unit sphere packing $\mathcal{P}$ in $\mathbb{R}^n$ (finite or infinite), the image $\iota(\mathcal{P})=\{(p,0):p\in\mathcal{P}\}$ is a unit sphere packing in $\mathbb{R}^{n+1}$, because
+\[
+\|\iota(p)-\iota(q)\|_{\mathbb{R}^{n+1}}=\|p-q\|_{\mathbb{R}^n}
+\]
+for all $p,q\in\mathcal{P}$.  In particular, distances are preserved, so tangencies are preserved, and the tangency graph of $\iota(\mathcal{P})$ is isomorphic to that of $\mathcal{P}$.  Hence every chromatic number achievable by a packing in $\mathbb{R}^n$ is also achievable by a packing in $\mathbb{R}^{n+1}$, giving $M(n)\le M(n+1)$.
+
+\textbf{(2) Limsup bound.}
+By the Main Packing Bound (Section~4), for every prime power $q\ge 2$:
+\[
+M(d_q)\;\ge\; q^3+1 \;=\; d_q + (q^2-q+1),\qquad d_q=q^3-q^2+q.
+\]
+Since $d_q=q(q^2-q+1)$, we have $d_q^{2/3}=q^{2/3}(q^2-q+1)^{2/3}$, so
+\[
+\frac{M(d_q)-d_q}{d_q^{2/3}}\;\ge\;\frac{q^2-q+1}{d_q^{2/3}}=\frac{(q^2-q+1)^{1/3}}{q^{2/3}}=\left(1-\frac{1}{q}+\frac{1}{q^2}\right)^{1/3}.
+\]
+The function $f(q)=1-1/q+1/q^2$ satisfies $f'(q)=1/q^2-2/q^3=(q-2)/q^3\ge 0$ for $q\ge 2$, so $f$ is nondecreasing for $q\ge 2$ and $\lim_{q\to\infty}f(q)=1$.
+
+Fix any $\varepsilon\in(0,1)$.  Since $f(q)\to 1$, there exists a prime power $q_0$ such that $f(q_0)>1-\varepsilon$.  By Euclid's theorem on the infinitude of primes, there exist infinitely many prime powers $q>q_0$, giving infinitely many indices $n_j=d_{q_j}\to\infty$ with
+\[
+\frac{M(n_j)-n_j}{n_j^{2/3}}\;\ge\;f(q_j)^{1/3}\;>\;(1-\varepsilon)^{1/3}.
+\]
+Therefore $\limsup_{n\to\infty}(M(n)-n)/n^{2/3}\ge (1-\varepsilon)^{1/3}$ for every $\varepsilon\in(0,1)$.  Letting $\varepsilon\to 0$ gives
+\[
+\limsup_{n\to\infty}\frac{M(n)-n}{n^{2/3}}\;\ge\;1.\qquad\square
+\]
+\end{proof}
+
+\subsection*{Section 6: Barrier Theorem for the Hoffman Framework}
+
+The main result of the paper gives $M(n)\ge n+\Omega(n^{2/3})$ via the Spectral Realization Theorem and the Hoffman bound.  A natural question is whether the same framework can yield a larger surplus of order $n^\alpha$ for some $\alpha>2/3$.  This section shows that for all standard graph families from finite geometry the answer is no: either the Hoffman bound falls short of the embedding dimension $d$ (giving no positive surplus at all), or the surplus grows strictly slower than $d^{2/3}$.
+
+\medskip
+We first collect the framework parameters.  For a connected $k$-regular graph $G$ with $v$ vertices and least eigenvalue $s<-1$ of multiplicity $g$:
+\begin{itemize}
+  \item embedding dimension: $d = v - g - 1$,
+  \item Hoffman lower bound on chromatic number: $H(G) := 1 - k/s$,
+  \item surplus: $H(G) - d$.
+\end{itemize}
+The surplus is positive iff $H(G)>d$, and the surplus exponent is $\alpha$ if $H(G)-d \asymp d^\alpha$.
+
+\begin{remark}
+Throughout this section, ``standard spectral families from finite geometry'' refers to the four families below: Kneser graphs, triangular graphs (complements of $K(n,2)$), non-collinearity graphs of symplectic polar spaces, and complements of generalized-hexagon point graphs.  These are the most natural strongly-regular or distance-regular graph families arising in finite geometry that have been studied in connection with sphere packings.  The theorem makes no claim about other families not listed.
+\end{remark}
+
+\begin{theorem}[Hoffman-Framework Barrier]
+\label{thm:barrier}
+For the following four families, the Hoffman bound does not exceed $d$ (i.e., the surplus $H(G)-d\le 0$), or is asymptotically smaller than $d$:
+\begin{enumerate}
+  \item \textup{(Kneser graphs $K(n,k)$, fixed $k\ge 3$, $n\to\infty$):}
+    $H(K(n,k)) = n/k$ while $d \sim n^k/k!$, so $H(K(n,k)) = O(d^{1/k}) = o(d)$.
+  \item \textup{(Triangular graph $T(n)$, i.e., complement of $K(n,2)$):}
+    $H(T(n)) = d = n-1$ exactly, giving surplus $0$.
+  \item \textup{(Non-collinearity graph of symplectic polar space $W(2r-1,q)$, $r\ge 2$):}
+    $H = 1+q^r \le d = (v-1-q^r)/2$, with equality only for $(r,q)=(2,2)$ and $H < d$ in all other cases.
+  \item \textup{(Complement of generalized hexagon point graph, order $(q,q)$):}
+    $H \sim \tfrac12 q^4$ while $d \sim \tfrac56 q^5$, so $H = o(d)$.
+\end{enumerate}
+In particular, none of these families achieves $H(G) \ge d + c\,d^\alpha$ for any $c>0$ and $\alpha>0$.
+\end{theorem}
+
+\begin{proof}
+\textbf{(1) Kneser graph $K(n,k)$, fixed $k\ge 3$, $n > 2k$.}
+The Kneser graph $K(n,k)$ has vertex set $\binom{[n]}{k}$ (all $k$-subsets of $[n]$), with adjacency for disjoint pairs.  For $n > 2k$, its adjacency eigenvalues are
+\[
+  \lambda_j = (-1)^j\binom{n-k-j}{k-j},\quad 0\le j\le k,
+\]
+with multiplicities $\binom{n}{j}-\binom{n}{j-1}$ for $j\ge 1$~\cite{BvM2022}.  For $n > 2k$ and fixed $k\ge 3$, the least eigenvalue is the $j=1$ term:
+\[
+  s_G = -\binom{n-k-1}{k-1} < 0,
+\]
+with multiplicity $g = n-1$ (since $n-1 = \binom{n}{1}-\binom{n}{0}$).
+
+We verify $\lambda_1$ is the least eigenvalue for $n > 2k$.  The even-$j$ eigenvalues satisfy $\lambda_j > 0$ for $n > 2k$ (as $n-k-j \ge k+1-j \ge 1$ for $j \le k$).  Among negative (odd-$j$) eigenvalues, the $j=1$ term dominates: for odd $j \ge 3$,
+\[
+  |\lambda_1|/|\lambda_j|
+  = \frac{\binom{n-k-1}{k-1}}{\binom{n-k-j}{k-j}}
+  = \prod_{i=1}^{j-1}\frac{n-k-1-i+1}{k-i}
+  = \prod_{i=1}^{j-1}\frac{n-k-i}{k-i}.
+\]
+Each factor $(n-k-i)/(k-i) \ge (n-2k+1)/(k-1) > 1$ for $n > 2k+k-1 = 3k-1$, which holds for $n > 2k$ and $k \ge 3$ (we can assume $n \ge 2k+1$ since this is the regime of interest).  Hence $|\lambda_1| > |\lambda_j|$ for all odd $j \ge 3$, confirming $s_G = \lambda_1 = -\binom{n-k-1}{k-1}$.
+
+In particular, $v = \binom{n}{k}$ and $k_G = \binom{n-k}{k}$.  The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{\binom{n-k}{k}}{\binom{n-k-1}{k-1}} = 1 + \frac{n-k}{k} = \frac{n}{k}.
+\]
+The embedding dimension:
+\[
+  d = v - g - 1 = \tbinom{n}{k} - n.
+\]
+For fixed $k\ge 3$ and $n\to\infty$, $d\sim n^k/k!$ while $H = n/k$, giving $H = O(d^{1/k}) = o(d)$.
+
+\textbf{(2) Triangular graph $T(n)$ (complement of $K(n,2)$), $n\ge 5$.}
+The triangular graph $T(n)$ has vertex set $\binom{[n]}{2}$ with two vertices adjacent iff they share one element; $v=\binom{n}{2}$ and degree $k_G = 2(n-2)$.
+
+We compute its spectrum via the complement.  The Kneser graph $K(n,2)$ has nontrivial eigenvalues $-(n-3)$ (mult $n-1$) and $1$ (mult $\binom{n}{2}-n$), with degree $\binom{n-2}{2}$~\cite{BvM2022}.  Since $T(n) = \overline{K(n,2)}$, each nontrivial eigenvector of $K(n,2)$ (lying in $\mathbf{1}^\perp$) is also an eigenvector of $T(n)$ with eigenvalue $-1 - \lambda$ (where $\lambda$ is the eigenvalue in $K(n,2)$):
+\[
+  -1-(-(n-3)) = n-4\;\text{(mult }n-1\text{)},\qquad -1-1=-2\;\text{(mult }\tbinom{n}{2}-n\text{)}.
+\]
+For $n\ge 5$: $n-4\ge 1 > 0 > -2$, so $s_G = -2$ is the least eigenvalue with multiplicity $g = \binom{n}{2}-n$.  Hence:
+\[
+  d = v - g - 1 = \tbinom{n}{2} - g - 1 = n - 1,
+  \qquad
+  H = 1 - \frac{2(n-2)}{-2} = n-1 = d.
+\]
+The surplus is $H - d = 0$.
+
+\textbf{(3) Non-collinearity graph of $W(2r-1,q)$.}
+The symplectic polar space $W(2r-1,q)$ ($r\ge 2$, $q$ a prime power) has $v=(q^{2r}-1)/(q-1)$ points.  Its non-collinearity graph $G$ (two points adjacent iff not in a common totally isotropic line) is strongly regular with degree $k_G = q^{2r-1}$ and nontrivial eigenvalues $\pm q^{r-1}$~\cite{BvM2022}.
+
+Let $a=q^{r-1}$.  From the trace equations ($1+f+g=v$ and $k_G + af - ag = 0$):
+\[
+  f - g = -k_G/a = -q^r,\qquad f + g = v-1.
+\]
+Solving: $g = (v-1+q^r)/2$ and $f = (v-1-q^r)/2$.  Hence the embedding dimension
+\[
+  d = v - g - 1 = \frac{v-1-q^r}{2} = f.
+\]
+The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{q^{2r-1}}{q^{r-1}} = 1 + q^r.
+\]
+We compare $H = 1+q^r$ with $d = (v-1-q^r)/2$.  The surplus is
+\[
+  d - H = \frac{v-1-q^r}{2} - (1+q^r) = \frac{v-3-3q^r}{2}.
+\]
+Now $v = (q^{2r}-1)/(q-1) = q^{2r-1}+q^{2r-2}+\cdots+1$.  We need to determine when $v\ge 3+3q^r$:
+\[
+  v - (3+3q^r) = \frac{q^{2r}-1}{q-1} - 3 - 3q^r.
+\]
+For $r=2$: $v-3-3q^2 = (q^3+q^2+q+1)-(3+3q^2) = q^3-2q^2+q-2 = (q-2)(q^2+1)$.  This equals $0$ at $q=2$ and is positive for all $q>2$.
+
+For $r\ge 3$: $v\ge q^{2r-1}$ and $3+3q^r\le 4q^r$, so $v-(3+3q^r)\ge q^{2r-1}-4q^r = q^r(q^{r-1}-4)\ge 0$ for $q^{r-1}\ge 4$, which holds for $(r,q)\ne(3,2)$.  At $(r,q)=(3,2)$: $v=85$, $3+3q^3=27$, so $v > 3+3q^r$. \\
+(In fact for $r=3, q=2$: $d=(84-8)/2=38 > H=1+8=9$.)
+
+Thus in all cases with $r\ge 2$ and $q\ge 2$ except $(r,q)=(2,2)$, we have $v > 3+3q^r$, so $d > H = 1+q^r$ and the surplus $H-d < 0$.  At $(r,q)=(2,2)$: $d=H=5$ (surplus $0$).  In no case is $H > d$.
+
+\textbf{(4) Complement of the generalized hexagon point graph.}
+Let $\mathcal{H}$ be a generalized hexagon of order $(q,q)$~\cite{BvM2022}, and let $\Gamma$ be its point-collinearity graph.  The graph $\Gamma$ has $v=(q+1)(q^4+q^2+1)$ vertices, degree $q(q+1)$, and nontrivial eigenvalues $2q-1$ (multiplicity $m_1$), $-1$ (multiplicity $m_2$), and $-(q+1)$ (multiplicity $m_3$), where
+\[
+  m_1 = \frac{q(q+1)^2(q^2+q+1)}{6},\quad
+  m_2 = \frac{q(q+1)^2(q^2-q+1)}{2},\quad
+  m_3 = \frac{q(q^2+q+1)(q^2-q+1)}{3}.
+\]
+For the complement $G=\overline{\Gamma}$: degree $k_G = v-1-q(q+1) = q^3(q^2+q+1)$.  Since the complement's nontrivial eigenvalues are $-\theta-1$ for each nontrivial eigenvalue $\theta$ of $\Gamma$, the nontrivial eigenvalues of $G$ are:
+\[
+  -2q\;\text{(mult }m_1\text{)},\qquad 0\;\text{(mult }m_2\text{)},\qquad q\;\text{(mult }m_3\text{)}.
+\]
+The least eigenvalue is $s_G = -2q$ (since $q\ge 2$, $-2q < 0 < q$), with multiplicity $g = m_1$.  The embedding dimension:
+\[
+  d = v - m_1 - 1 = m_2 + m_3 \sim \tfrac56 q^5 \quad (q\to\infty).
+\]
+The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{q^3(q^2+q+1)}{2q} = 1 + \frac{q^2(q^2+q+1)}{2} \sim \tfrac12 q^4.
+\]
+Since $d\sim \tfrac56 q^5$ and $H\sim \tfrac12 q^4$, we have $H/d\sim \tfrac{3}{5q}\to 0$ as $q\to\infty$.  For small prime powers: at $q=2$, $d=41$ and $H=15$; at $q=3$, $d=259$ and $H\approx 59.5$.  In all cases $H < d$, so the Hoffman bound does not reach $d$.
+
+\medskip
+\textbf{Note on Spectral Realization Theorem conditions.}  The barrier theorem does not require verifying that these families satisfy the conditions of the Spectral Realization Theorem (Theorem~\ref{thm:spectral-realization}).  The argument is purely quantitative: even if a graph from these families were embedded as a packing, its Hoffman bound $H(G) = 1-k/s$ would not exceed $d$, so its chromatic number lower bound $\chi(G)\ge H(G)\le d$ would not give $\chi(G)\ge d+c\,d^\alpha$ for any $c,\alpha>0$.
+
+\textbf{Summary.}  For Kneser graphs ($k\ge 3$) and the hexagon complement, $H = o(d)$; for the triangular graph and symplectic polar graphs, $H\le d$ with equality only in a single small case.  None of these families achieves $H\ge d + c\,d^\alpha$ for any $c>0, \alpha>0$.
+\end{proof}
+
+\begin{remark}
+The barrier analysis establishes that $\alpha=2/3$ cannot be improved using any of the above standard families within the Hoffman framework.  Any improvement to the surplus exponent would require either a genuinely new graph family or a proof technique beyond the Hoffman ratio bound.
+\end{remark}
+
+\subsection*{Section 7: Improved Upper Bound via Small-Clique Graph Coloring}
+
+The following theorem improves the standard upper bound $M(n)\le \tau(n)+1$ by a polynomial factor, where $\tau(n)$ denotes the $n$-dimensional kissing number.
+
+\begin{theorem}[Improved Upper Bound]\label{thm:upper-bound}
+There exists an absolute constant $C>0$ such that, for all sufficiently large $n$,
+\[
+  M(n) \;\le\; C\,\tau(n)\,\sqrt{\frac{\ln(n+2)}{\ln \tau(n)}}.
+\]
+In particular, using the Kabatiansky--Levenshtein bound $\tau(n)\le 2^{0.401n(1+o(1))}$,
+\[
+  M(n) \;=\; O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\; 2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right).
+\]
+This is a polynomial-factor improvement over the greedy bound $M(n)\le\tau(n)+1$.
+\end{theorem}
+
+The proof rests on three ingredients, which we state as lemmas.
+
+\begin{lemma}[de Bruijn--Erd\H{o}s Compactness]\label{lem:compactness}
+$M(n) = \sup\bigl\{\chi(G_X) : X\subset\mathbb{R}^n\text{ finite},\;\|x-y\|\ge 1\ \forall x\ne y\in X\bigr\}.$
+In other words, $M(n)$ is achieved as a supremum over \emph{finite} packings.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{P}$ be any unit sphere packing in $\mathbb{R}^n$ (possibly infinite), and let $G=G_{\mathcal{P}}$ be its tangency graph.  Every finite subgraph of $G$ is the tangency graph of a finite sub-packing, hence has chromatic number at most $\sup_{\text{finite }X}\chi(G_X)=:K$.  By the de Bruijn--Erd\H{o}s theorem~\cite{dBE1951}, an infinite graph whose every finite subgraph is $K$-colorable is itself $K$-colorable, so $\chi(G)\le K$.  Hence $M(n)\le K$; the reverse inequality $M(n)\ge K$ is trivial.
+\end{proof}
+
+\begin{lemma}[Geometric Graph Bounds]\label{lem:graph-bounds}
+For every finite unit sphere packing $X\subset\mathbb{R}^n$ (centres with pairwise distance $\ge 1$), the tangency graph $G_X$ satisfies:
+\begin{enumerate}
+  \item[\textup{(a)}] \textup{(Degree bound)} $\Delta(G_X)\le\tau(n)$, the $n$-dimensional kissing number.
+  \item[\textup{(b)}] \textup{(Clique bound)} $\omega(G_X)\le n+1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\textbf{(a).} The neighbours of a centre $v\in X$ in $G_X$ are the centres $u\in X$ with $\|u-v\|=1$, all lying on the unit sphere $S^{n-1}(v)$ of radius $1$ centred at $v$, and pairwise at distance $\ge 1$.  Translating to $v=0$, this is a set of unit-sphere points with pairwise angular separation $\ge 60°$, i.e.\ a kissing configuration.  By definition of $\tau(n)$, the size of any kissing configuration is at most $\tau(n)$.
+
+\textbf{(b).} A $k$-clique in $G_X$ is a set $\{x_1,\ldots,x_k\}\subset X$ with $\|x_i-x_j\|=1$ for all $i\ne j$ — an equidistant set of diameter $1$ in $\mathbb{R}^n$.  Setting $y_i=x_i-x_1$ for $i\ge 2$, we have $\|y_i\|=1$ and
+\[
+  \|y_i-y_j\|^2 = \|x_i-x_j\|^2 = 1, \quad i\ne j\ge 2,
+\]
+which gives $\langle y_i,y_j\rangle = \tfrac{1}{2}$ for all $i\ne j\ge 2$.  The Gram matrix $M$ of $y_2,\ldots,y_k$ satisfies $M_{ii}=1$ and $M_{ij}=\tfrac{1}{2}$ for $i\ne j$, i.e.\ $M=\tfrac{1}{2}I+\tfrac{1}{2}J$ where $J$ is the $(k-1)\times(k-1)$ all-ones matrix.  The eigenvalues of $M$ are $\tfrac{k}{2}$ (once) and $\tfrac{1}{2}$ ($k-2$ times), all positive, so $M$ is positive definite and has rank $k-1$.  Since $y_2,\ldots,y_k\in\mathbb{R}^n$, we need $k-1\le n$, i.e.\ $k\le n+1$.
+\end{proof}
+
+\begin{lemma}[Bonamy--Kelly--Nelson--Postle, 2022~{\cite{BKNP2022}}]\label{lem:bknp}
+There exists an absolute constant $C_0>0$ such that the following holds.  For all $\omega\ge 3$ and all $\Delta\ge \omega^{C_0}$, every graph $G$ with $\Delta(G)\le\Delta$ and $\omega(G)\le\omega$ satisfies
+\[
+  \chi(G)\;\le\; 72\,\Delta\,\sqrt{\frac{\ln\omega}{\ln\Delta}}.
+\]
+\end{lemma}
+
+\begin{proof}[Proof of Theorem~\ref{thm:upper-bound}]
+By Lemma~\ref{lem:compactness}, $M(n)=\sup_{\text{finite }X}\chi(G_X)$.  Fix a finite unit sphere packing $X\subset\mathbb{R}^n$.  By Lemma~\ref{lem:graph-bounds}, $G_X$ has $\Delta(G_X)\le\tau(n)$ and $\omega(G_X)\le n+1$.
+
+We verify the hypothesis of Lemma~\ref{lem:bknp} with $\Delta=\tau(n)$ and $\omega=n+2$: since $\tau(n)\ge 2^{0.2075n(1+o(1))}$ by the Kabatiansky--Levenshtein lower bound~\cite{KL1978}, we have $\ln\tau(n)\ge 0.2075n\ln 2$, while $\ln(n+2)^{C_0}=O(n)$, so $\tau(n)\ge(n+2)^{C_0}$ for all sufficiently large $n$.  Hence
+\[
+  \chi(G_X) \;\le\; 72\,\tau(n)\,\sqrt{\frac{\ln(n+2)}{\ln\tau(n)}}.
+\]
+Taking the supremum over all finite $X$ gives the first bound.
+
+For the asymptotic form, since $\ln\tau(n)\le 0.401n\ln 2+o(n)$ (upper KL bound~\cite{KL1978}),
+\[
+  \sqrt{\frac{\ln(n+2)}{\ln\tau(n)}} = O\!\left(\sqrt{\frac{\log n}{n}}\right),
+\]
+giving $M(n)=O(\tau(n)\sqrt{\log n/n})=2^{0.401n(1+o(1))}\cdot O(\sqrt{\log n/n})$.
+
+To see this is an improvement over greedy: the ratio of the new bound to $\tau(n)$ is $O(\sqrt{\log n/n})\to 0$, so the new bound is $o(\tau(n))$ and hence $o(M_{\mathrm{greedy}}(n))$.
+\end{proof}
+
+\begin{remark}
+The key geometric input is $\omega(G_X)\le n+1$, which contrasts sharply with $\tau(n)\sim 2^{0.401n}$.  The logarithmic ratio $\ln\omega/\ln\Delta\sim (\log n)/(0.401n)\to 0$ is what drives the improvement.  The de Bruijn--Erd\H{o}s step (Lemma~\ref{lem:compactness}) is essential: the Bonamy--Kelly--Nelson--Postle theorem is a finite-graph result, and the transfer to arbitrary (possibly infinite) packings requires the compactness principle.
+\end{remark}
+
+
+\begin{corollary}[Main Result]\label{cor:main}
+The supremum $M(n)$ of chromatic numbers of unit sphere packings in $\mathbb{R}^n$ satisfies:
+\begin{enumerate}
+\item[\textup{(i)}] \textbf{Lower bound:}
+\[
+  \limsup_{n\to\infty}\;\frac{M(n)-n}{n^{2/3}}\;\ge\;1.
+\]
+In particular, $(M(n)-n)/n^{2/3}$ is at least $(1-1/q+1/q^2)^{1/3}\to 1$ along $n=d_q=q^3-q^2+q$ as $q\to\infty$ through prime powers.
+\item[\textup{(ii)}] \textbf{Upper bound:}
+\[
+  M(n)\;=\;O\!\left(\tau(n)\cdot\sqrt{\frac{\log n}{n}}\right)
+  \;=\;2^{0.401n(1+o(1))}\cdot O\!\left(\sqrt{\frac{\log n}{n}}\right).
+\]
+\item[\textup{(iii)}] \textbf{Barrier:} By the Barrier Theorem~\textup{(Theorem~\ref{thm:barrier})}, none of the four named classical spectral families from finite geometry (Kneser, triangular, symplectic polar, hexagon complement) achieves a positive surplus $H(G)-d>0$ within the Hoffman framework.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+\textbf{Lower bound chain.}
+By the Spectral Realization Theorem (Theorem~\ref{thm:spectral-realization}) and the explicit spectral computation in Theorem~\ref{thm:gq-family}, the complement $G_q$ of the collinearity graph of $\mathrm{GQ}(q,q^2)$ embeds as the tangency graph of a unit sphere packing in $\mathbb{R}^{d_q}$, so
+\[
+M(d_q)\;\ge\;\chi(G_q).
+\]
+By the Hoffman Bound (Theorem~\ref{thm:hoffman}) and the eigenvalues $k_q=q^4$, $s_q=-q$ of $G_q$,
+\[
+\chi(G_q)\;\ge\;1-\frac{k_q}{s_q}=q^3+1.
+\]
+Hence $M(d_q)\ge q^3+1 = d_q+(q^2-q+1)$ (Theorem~\ref{thm:main-packing}).
+
+\textbf{Limsup.}
+By Theorem~\ref{thm:limsup}(2), taking $q\to\infty$ through prime powers,
+\[
+\frac{M(d_q)-d_q}{d_q^{2/3}}\;\ge\;\left(1-\frac{1}{q}+\frac{1}{q^2}\right)^{1/3}\;\to\;1,
+\]
+which gives $\limsup_{n\to\infty}(M(n)-n)/n^{2/3}\ge 1$.
+
+\textbf{Upper bound.}  This is Theorem~\ref{thm:upper-bound}.
+
+\textbf{Barrier.}  This is Theorem~\ref{thm:barrier}.
+\end{proof}
+
+\begin{thebibliography}{9}
+\bibitem{Chen2015}
+H.~Chen,
+\textit{Ball packings with high chromatic numbers from strongly regular graphs},
+Discrete Mathematics \textbf{340} (2017), no.~7.
+arXiv:1502.02070.
+
+\bibitem{BvM2022}
+A.~E.~Brouwer and H.~Van Maldeghem,
+\textit{Strongly Regular Graphs},
+Cambridge University Press, 2022.
+
+\bibitem{Hoffman1970}
+A.~J.~Hoffman,
+\textit{On eigenvalues and colorings of graphs},
+in Graph Theory and its Applications (B.~Harris, ed.), Academic Press, 1970, pp.\ 79--91.
+
+\bibitem{KL1978}
+G.~A.~Kabatiansky and V.~I.~Levenshtein,
+\textit{Bounds for packings on the sphere and in space},
+Problemy Peredachi Informatsii \textbf{14} (1978), 3--25.
+
+\bibitem{PT1984}
+S.~E.~Payne and J.~A.~Thas,
+\textit{Finite Generalized Quadrangles},
+Research Notes in Mathematics \textbf{110}, Pitman, Boston, 1984.
+Second edition: EMS Series of Lectures in Mathematics, European Mathematical Society, Z\"{u}rich, 2009.
+
+\bibitem{dBE1951}
+N.~G.~de Bruijn and P.~Erd\H{o}s,
+\textit{A colour problem for infinite graphs and a problem in the theory of relations},
+Indagationes Mathematicae \textbf{13} (1951), 369--373.
+
+\bibitem{BKNP2022}
+M.~Bonamy, T.~Kelly, P.~Nelson, and L.~Postle,
+\textit{Bounding $\chi$ by a fraction of $\Delta$ for graphs without large cliques},
+Journal of the European Mathematical Society \textbf{26} (2024), no.~5, 1451--1499.
+arXiv:1803.01051.
+\end{thebibliography}
+
+\end{document}

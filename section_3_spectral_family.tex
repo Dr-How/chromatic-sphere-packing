@@ -1,0 +1,95 @@
+\subsection*{Section 3: The Generalized Quadrangle Construction}
+
+\begin{theorem}[Spectral Family from $\mathrm{GQ}(q,q^2)$]
+\label{thm:gq-family}
+For every prime power $q\ge 2$, let $G_q$ denote the complement of the point-collinearity graph of the generalized quadrangle $\mathrm{GQ}(q,q^2)$. Then:
+\begin{enumerate}
+  \item $G_q$ has $v_q=(q+1)(q^3+1)$ vertices and is regular of degree $k_q=q^4$.
+  \item The least adjacency eigenvalue of $G_q$ is $s_q=-q$, with multiplicity $g_q=q^4+q^2$, and the embedding dimension is $d_q:=v_q-g_q-1=q^3-q^2+q$.
+  \item The Hoffman lower bound satisfies
+    \[1-\frac{k_q}{s_q}=q^3+1=d_q+(q^2-q+1).\]
+  \item For every prime power $q\ge 2$,
+    \[1-\frac{k_q}{s_q}\ge d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3}.\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{Q}$ be a generalized quadrangle of order $(q,q^2)$, and let $\Gamma_q$ be its point-collinearity graph. Thus two distinct points are adjacent in $\Gamma_q$ exactly when they are collinear in $\mathcal{Q}$. Generalized quadrangles of order $(q,q^2)$ exist for all prime powers $q$: the classical realization is the \emph{elliptic quadric} $Q^-(5,q)$ in $\mathrm{PG}(5,q)$, which has $(q^3+1)(q+1)$ points and forms a $\mathrm{GQ}(q,q^2)$ (see \cite{PT1984} and \cite{BvM2022}). The Hermitian variety $H(3,q^2)$ gives $\mathrm{GQ}(q^2,q)$, not $\mathrm{GQ}(q,q^2)$.
+
+The collinearity graph of a $\mathrm{GQ}(s,t)$ is strongly regular with parameters \cite{PT1984}
+\[
+v=(s+1)(st+1),\quad k=s(t+1),\quad \lambda=s-1,\quad \mu=t+1,
+\]
+and nontrivial eigenvalues $s-1$ (multiplicity $st(s+1)(t+1)/(s+t)$) and $-(t+1)$ (multiplicity $s^2(st+1)/(s+t)$).
+
+Setting $s=q$ and $t=q^2$:
+\[
+v=(q+1)(q^3+1),\quad \kappa=q(q^2+1),\quad \lambda=q-1,\quad \mu=q^2+1,
+\]
+with nontrivial eigenvalues
+\[
+r=q-1,\qquad s_0=-(q^2+1).
+\]
+
+\textbf{Connectedness.} If two points are collinear, they are adjacent in $\Gamma_q$. If two points are not collinear, they have exactly $\mu=q^2+1>0$ common neighbours. Hence every pair of vertices is at distance at most $2$ in $\Gamma_q$, so $\Gamma_q$ is connected. For any connected $k$-regular graph, the degree eigenvalue $k$ has multiplicity $1$: if $Au=\kappa u$ then the maximum-entry argument (same as in Section~1) shows $u\in\operatorname{span}\{\mathbf{1}\}$, so the $\kappa$-eigenspace is 1-dimensional.
+
+\textbf{Multiplicity computation.} Let the multiplicities of $r$ and $s_0$ be $f$ and $g_0$ respectively. The trace of the adjacency matrix of a simple graph (no self-loops) equals $0$ since $\operatorname{tr}(A)=\sum_x A_{xx}=0$; by the spectral theorem, this equals the sum of eigenvalues with multiplicity: $\kappa\cdot 1 + r\cdot f + s_0\cdot g_0 = 0$. Combined with $1+f+g_0=v$, the trace condition is $\kappa+(q-1)f-(q^2+1)g_0=0$. Using $g_0=v-1-f$:
+\[
+\kappa+(q-1)f-(q^2+1)(v-1-f)=0 \implies (q^2+q)f=(q^2+1)(v-1)-\kappa.
+\]
+Substituting $v-1=q^4+q^3+q$ and $\kappa=q(q^2+1)$:
+\[
+f=\frac{(q^2+1)(q^4+q^3+q)-q(q^2+1)}{q^2+q}
+=\frac{(q^2+1)(q^4+q^3)}{q(q+1)}
+=q^2(q^2+1)=q^4+q^2.
+\]
+Hence $g_0=v-1-f=(q^4+q^3+q)-(q^4+q^2)=q^3-q^2+q$.
+
+\textbf{Complement eigenvalues.} Let $G_q=\overline{\Gamma_q}$ with adjacency matrix $B=J-I-A$. Since $\Gamma_q$ is $\kappa$-regular, $B\mathbf{1}=(v-1-\kappa)\mathbf{1}$, so $G_q$ has degree
+\[
+k_q=v-1-\kappa=(q^4+q^3+q)-(q^3+q)=q^4.
+\]
+This proves item (1).
+
+For the non-principal eigenvalues: if $Au=\theta u$ with $\theta\ne\kappa$, then $\kappa(\mathbf{1}^Tu)=\mathbf{1}^T A u=\theta(\mathbf{1}^Tu)$, so $\mathbf{1}^Tu=0$. Thus all non-principal eigenvectors lie in $\mathbf{1}^\perp$, and for $u\perp\mathbf{1}$ with $Au=\theta u$: $Bu=(J-I-A)u=0-u-\theta u=(-1-\theta)u$. Hence $G_q$ has eigenvalues:
+\begin{itemize}
+  \item $q^4$ (multiplicity $1$, principal eigenvalue),
+  \item $-r-1=-q$ (multiplicity $f=q^4+q^2$),
+  \item $-s_0-1=q^2$ (multiplicity $g_0=q^3-q^2+q$).
+\end{itemize}
+
+For $q\ge 2$, the three eigenvalues satisfy $q^4>0$, $q^2>0$, and $-q<0$. Hence the least adjacency eigenvalue of $G_q$ is $s_q=-q$ with multiplicity $g_q=f=q^4+q^2$.
+
+\textbf{Embedding dimension.}
+\[
+d_q:=v_q-g_q-1=(q^4+q^3+q+1)-(q^4+q^2)-1=q^3-q^2+q.
+\]
+
+\textbf{Non-completeness and connectivity of $G_q$.} We have $k_q=q^4<q^4+q^3+q=v_q-1$, so $G_q$ is not complete.
+
+For connectivity, recall that two vertices $x,y$ are \emph{adjacent in $G_q$} if and only if they are \emph{non-collinear in $\mathcal{Q}$}. We show every pair $x\ne y$ has a common neighbour in $G_q$, establishing diameter at most~$2$.
+
+\emph{Case 1: $x$ and $y$ are adjacent in $G_q$} (non-collinear in $\mathcal{Q}$). Then $xy$ is already an edge, and they trivially have a common neighbour if we can find $z\ne x,y$ adjacent to both; the diameter-2 bound suffices for connectivity, but adjacency already gives a path.
+
+\emph{Case 2: $x$ and $y$ are non-adjacent in $G_q$} (collinear in $\mathcal{Q}$). We need a vertex $z$ adjacent to both $x$ and $y$ in $G_q$, i.e., non-collinear with both. In $\mathcal{Q}$, each point has $\kappa=q(q^2+1)$ collinear points, so $x$ is non-collinear with exactly $v-1-\kappa=q^4$ points of $\mathcal{Q}\setminus\{x\}$; call this set $A$. Similarly let $B$ be the $q^4$ points non-collinear with $y$. Since $x$ and $y$ are collinear, $x\notin A$ and $y\notin B$ (a point is always collinear with itself, but the exclusion $\{x,y\}$ merely removes two points from the ambient set). More precisely, $A\subseteq V\setminus\{x\}$ and $B\subseteq V\setminus\{y\}$, and since $x$ is collinear with $y$ we have $x\notin B$ and $y\notin A$. So both $A$ and $B$ are subsets of $V\setminus\{x,y\}$, which has $v_q-2=q^4+q^3+q-1$ elements.
+
+Since $|A|+|B|=2q^4>q^4+q^3+q-1=|V\setminus\{x,y\}|$ for all $q\ge 2$ (because $q^4-(q^3+q-1)=(q-1)(q^3-1)>0$ for $q\ge 2$), by inclusion-exclusion $A\cap B\ne\emptyset$. Any $z\in A\cap B$ is non-collinear with both $x$ and $y$, so $z$ is adjacent to both in $G_q$, giving the path $x$-$z$-$y$.
+
+Thus $G_q$ has diameter at most $2$ and is connected. This proves item (2).
+
+\textbf{Hoffman bound.}
+\[
+1-\frac{k_q}{s_q}=1-\frac{q^4}{-q}=1+q^3=q^3+1.
+\]
+Since $d_q+(q^2-q+1)=(q^3-q^2+q)+(q^2-q+1)=q^3+1$, we have
+\[
+1-\frac{k_q}{s_q}=d_q+(q^2-q+1).
+\]
+This proves item (3).
+
+\textbf{Explicit surplus bound.} Let $A_q=q^2-q+1$, so $d_q=qA_q$ and the surplus equals $A_q$. It suffices to show $A_q\ge(3/4)^{1/3}d_q^{2/3}=(3/4)^{1/3}(qA_q)^{2/3}$. Since $A_q>0$, cubing gives the equivalent inequality $A_q^3\ge(3/4)q^2 A_q^2$, i.e.\ $A_q\ge(3/4)q^2$. Computing:
+\[
+A_q-\frac{3}{4}q^2=q^2-q+1-\frac{3}{4}q^2=\frac{1}{4}q^2-q+1=\frac{(q-2)^2}{4}\ge 0.
+\]
+Therefore $q^2-q+1\ge(3/4)^{1/3}d_q^{2/3}$ for all $q$, and item (4) follows.
+\end{proof}

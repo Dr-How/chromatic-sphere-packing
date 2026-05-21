@@ -1,0 +1,64 @@
+\subsection*{Section 2: Hoffman Lower Bound for Chromatic Number}
+
+\begin{theorem}[Hoffman Bound]
+\label{thm:hoffman}
+Let $G$ be a finite $k$-regular graph on $v$ vertices with least adjacency eigenvalue $s<0$. Then
+\[
+  \chi(G) \;\ge\; 1-\frac{k}{s}.
+\]
+\end{theorem}
+
+\begin{proof}
+For reference, the inequality to be proved is the standard Hoffman lower bound on the chromatic number: $\chi(G)\ge 1-\lambda_{1}/\lambda_{n}$, where $\lambda_{1}$ and $\lambda_{n}$ are the largest and smallest adjacency eigenvalues. We prove the stated $k$-regular case directly.
+
+Let $A$ be the adjacency matrix of $G$, and let $\mathbf{1}\in\mathbb{R}^{v}$ be the all-ones vector. Since $G$ is $k$-regular, $A\mathbf{1}=k\mathbf{1}$.
+
+Let $S\subseteq V(G)$ be any independent set, and let $\mathbf{x}$ be its indicator vector. Put $n:=|S|=\mathbf{x}^{T}\mathbf{x}$. If $n=0$, there is nothing to prove, so assume $n>0$.
+
+Decompose $\mathbf{x}$ into its component along $\mathbf{1}$ and its orthogonal component:
+\[
+\mathbf{x}=\frac{n}{v}\mathbf{1}+\mathbf{u},\qquad \mathbf{u}\perp \mathbf{1}.
+\]
+Indeed, $\mathbf{1}^{T}\mathbf{u}=\mathbf{1}^{T}\mathbf{x}-\frac{n}{v}\mathbf{1}^{T}\mathbf{1}=n-\frac{n}{v}v=0$.
+
+Because $A$ is real symmetric, it has an orthonormal eigenbasis. Every eigenvalue of $A$ is at least $s$, so for every vector $\mathbf{u}\perp \mathbf{1}$ we have $\mathbf{u}^{T}A\mathbf{u}\ge s\|\mathbf{u}\|^{2}$.
+
+Now compute $\mathbf{x}^{T}A\mathbf{x}$. Since $S$ is independent, no edge has both endpoints in $S$, so $\mathbf{x}^{T}A\mathbf{x}=0$. On the other hand,
+\[
+\mathbf{x}^{T}A\mathbf{x}
+=\left(\frac{n}{v}\mathbf{1}+\mathbf{u}\right)^{T}A\left(\frac{n}{v}\mathbf{1}+\mathbf{u}\right)
+=\frac{n^{2}}{v^{2}}\mathbf{1}^{T}A\mathbf{1}+\frac{2n}{v}\mathbf{1}^{T}A\mathbf{u}+\mathbf{u}^{T}A\mathbf{u}.
+\]
+Since $A\mathbf{1}=k\mathbf{1}$ and $\mathbf{u}\perp\mathbf{1}$, we have $\mathbf{1}^{T}A\mathbf{1}=kv$ and $\mathbf{1}^{T}A\mathbf{u}=(A\mathbf{1})^{T}\mathbf{u}=k\mathbf{1}^{T}\mathbf{u}=0$.
+Therefore
+\[
+0=\mathbf{x}^{T}A\mathbf{x}=\frac{kn^{2}}{v}+\mathbf{u}^{T}A\mathbf{u}.
+\]
+Using $\mathbf{u}^{T}A\mathbf{u}\ge s\|\mathbf{u}\|^{2}$ gives
+\[
+0\ge\frac{kn^{2}}{v}+s\|\mathbf{u}\|^{2}.
+\]
+Now $\|\mathbf{u}\|^{2}=\|\mathbf{x}-\frac{n}{v}\mathbf{1}\|^{2}=\|\mathbf{x}\|^{2}-\frac{n^{2}}{v}=n-\frac{n^{2}}{v}=\frac{n(v-n)}{v}$.
+Hence
+\[
+0\ge\frac{kn^{2}}{v}+s\frac{n(v-n)}{v}.
+\]
+Multiplying by $\frac{v}{n}>0$ yields
+\[
+0\ge kn+s(v-n)=(k-s)n+sv.
+\]
+Thus $(k-s)n\le -sv$. Since $s<0$ and $k-s>0$, we obtain
+\[
+n\le \frac{-sv}{k-s}.
+\]
+So every independent set in $G$ has size at most $\frac{-sv}{k-s}$.
+
+Now let $V_{1},\dots,V_{\chi}$ be the color classes of an optimal proper coloring of $G$, where $\chi=\chi(G)$. Each $V_{i}$ is an independent set, so $|V_{i}|\le \frac{-sv}{k-s}$ for each $i$. Since the color classes partition $V(G)$,
+\[
+v=\sum_{i=1}^{\chi}|V_{i}|\le\chi\cdot\frac{-sv}{k-s}.
+\]
+Dividing by $v>0$ gives $1\le \chi\cdot\frac{-s}{k-s}$. Therefore
+\[
+\chi\ge\frac{k-s}{-s}=1-\frac{k}{s}.\qquad\square
+\]
+\end{proof}

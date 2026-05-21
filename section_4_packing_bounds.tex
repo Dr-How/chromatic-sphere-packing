@@ -1,0 +1,39 @@
+\subsection*{Section 4: Packing Lower Bounds at the Special Dimensions}
+
+\begin{theorem}[Main Packing Bound]
+\label{thm:main-packing}
+For every prime power $q\ge 2$, the supremum $M(d_q)$ of chromatic numbers of finite unit sphere packings in $\mathbb{R}^{d_q}$ satisfies
+\[
+  M(d_q)\;\ge\; q^3+1 \;=\; d_q + (q^2-q+1) \;\ge\; d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3},
+\]
+where $d_q = q^3-q^2+q$.
+\end{theorem}
+
+\begin{proof}
+Fix a prime power $q\ge 2$. Let $G_q$ be the graph from Section~3. We explicitly verify that $G_q$ meets all the hypotheses of the Spectral Realization Theorem (Section~1):
+\begin{itemize}
+  \item \emph{Finite}: $G_q$ has $v_q=(q+1)(q^3+1)$ vertices (Section~3, item~1).
+  \item \emph{Connected}: proved in Section~3 (diameter-at-most-2 argument via the $|A\cap B|\ne\emptyset$ counting for non-adjacent pairs).
+  \item \emph{Non-complete}: $k_q=q^4<v_q-1$ (Section~3, item~1).
+  \item \emph{$k_q$-regular}: $G_q$ is regular of degree $k_q=q^4$ (Section~3, item~1).
+  \item \emph{Least eigenvalue $s_q=-q<-1$}: since $q\ge 2$, we have $s_q=-q\le -2<-1$ (Section~3, item~2).
+  \item \emph{Multiplicity $g_q$}: $g_q=q^4+q^2$ (Section~3, item~2).
+  \item \emph{Dimension formula}: $d_q=v_q-g_q-1=q^3-q^2+q$ (Section~3, item~2).
+\end{itemize}
+By the Spectral Realization Theorem, there exist points $\{p_x:x\in V(G_q)\}\subset\mathbb{R}^{d_q}$ forming a unit sphere packing in $\mathbb{R}^{d_q}$ whose tangency graph is exactly $G_q$. Therefore
+\[
+M(d_q)\ge\chi(G_q).
+\]
+
+Since $G_q$ is $k_q$-regular with least eigenvalue $s_q=-q<0$, the Hoffman Bound (Section~2) gives
+\[
+\chi(G_q)\ge 1-\frac{k_q}{s_q}=1+q^3=q^3+1.
+\]
+
+By Section~3, item~3 and item~4:
+\[
+q^3+1=d_q+(q^2-q+1)\ge d_q+\left(\frac{3}{4}\right)^{1/3}d_q^{2/3}.
+\]
+
+Combining: $M(d_q)\ge\chi(G_q)\ge q^3+1\ge d_q+(3/4)^{1/3}d_q^{2/3}$.
+\end{proof}

@@ -1,0 +1,139 @@
+\subsection*{Section 6: Barrier Theorem for the Hoffman Framework}
+
+The main result of the paper gives $M(n)\ge n+\Omega(n^{2/3})$ via the Spectral Realization Theorem and the Hoffman bound.  A natural question is whether the same framework can yield a larger surplus of order $n^\alpha$ for some $\alpha>2/3$.  This section shows that for all standard graph families from finite geometry the answer is no: either the Hoffman bound falls short of the embedding dimension $d$ (giving no positive surplus at all), or the surplus grows strictly slower than $d^{2/3}$.
+
+\medskip
+We first collect the framework parameters.  For a connected $k$-regular graph $G$ with $v$ vertices and least eigenvalue $s<-1$ of multiplicity $g$:
+\begin{itemize}
+  \item embedding dimension: $d = v - g - 1$,
+  \item Hoffman lower bound on chromatic number: $H(G) := 1 - k/s$,
+  \item surplus: $H(G) - d$.
+\end{itemize}
+The surplus is positive iff $H(G)>d$, and the surplus exponent is $\alpha$ if $H(G)-d \asymp d^\alpha$.
+
+\begin{remark}
+Throughout this section, ``standard spectral families from finite geometry'' refers to the four families below: Kneser graphs, triangular graphs (complements of $K(n,2)$), non-collinearity graphs of symplectic polar spaces, and complements of generalized-hexagon point graphs.  These are the most natural strongly-regular or distance-regular graph families arising in finite geometry that have been studied in connection with sphere packings.  The theorem makes no claim about other families not listed.
+\end{remark}
+
+\begin{theorem}[Hoffman-Framework Barrier]
+\label{thm:barrier}
+For the following four families, the Hoffman bound does not exceed $d$ (i.e., the surplus $H(G)-d\le 0$), or is asymptotically smaller than $d$:
+\begin{enumerate}
+  \item \textup{(Kneser graphs $K(n,k)$, fixed $k\ge 3$, $n\to\infty$):}
+    $H(K(n,k)) = n/k$ while $d \sim n^k/k!$, so $H(K(n,k)) = O(d^{1/k}) = o(d)$.
+  \item \textup{(Triangular graph $T(n)$, i.e., complement of $K(n,2)$):}
+    $H(T(n)) = d = n-1$ exactly, giving surplus $0$.
+  \item \textup{(Non-collinearity graph of symplectic polar space $W(2r-1,q)$, $r\ge 2$):}
+    $H = 1+q^r \le d = (v-1-q^r)/2$, with equality only for $(r,q)=(2,2)$ and $H < d$ in all other cases.
+  \item \textup{(Complement of generalized hexagon point graph, order $(q,q)$):}
+    $H \sim \tfrac12 q^4$ while $d \sim \tfrac56 q^5$, so $H = o(d)$.
+\end{enumerate}
+In particular, none of these families achieves $H(G) \ge d + c\,d^\alpha$ for any $c>0$ and $\alpha>0$.
+\end{theorem}
+
+\begin{proof}
+\textbf{(1) Kneser graph $K(n,k)$, fixed $k\ge 3$, $n > 2k$.}
+The Kneser graph $K(n,k)$ has vertex set $\binom{[n]}{k}$ (all $k$-subsets of $[n]$), with adjacency for disjoint pairs.  For $n > 2k$, its adjacency eigenvalues are
+\[
+  \lambda_j = (-1)^j\binom{n-k-j}{k-j},\quad 0\le j\le k,
+\]
+with multiplicities $\binom{n}{j}-\binom{n}{j-1}$ for $j\ge 1$~\cite{BvM2022}.  For $n > 2k$ and fixed $k\ge 3$, the least eigenvalue is the $j=1$ term:
+\[
+  s_G = -\binom{n-k-1}{k-1} < 0,
+\]
+with multiplicity $g = n-1$ (since $n-1 = \binom{n}{1}-\binom{n}{0}$).
+
+We verify $\lambda_1$ is the least eigenvalue for $n > 2k$.  The even-$j$ eigenvalues satisfy $\lambda_j > 0$ for $n > 2k$ (as $n-k-j \ge k+1-j \ge 1$ for $j \le k$).  Among negative (odd-$j$) eigenvalues, the $j=1$ term dominates: for odd $j \ge 3$,
+\[
+  |\lambda_1|/|\lambda_j|
+  = \frac{\binom{n-k-1}{k-1}}{\binom{n-k-j}{k-j}}
+  = \prod_{i=1}^{j-1}\frac{n-k-1-i+1}{k-i}
+  = \prod_{i=1}^{j-1}\frac{n-k-i}{k-i}.
+\]
+Each factor $(n-k-i)/(k-i) \ge (n-2k+1)/(k-1) > 1$ for $n > 2k+k-1 = 3k-1$, which holds for $n > 2k$ and $k \ge 3$ (we can assume $n \ge 2k+1$ since this is the regime of interest).  Hence $|\lambda_1| > |\lambda_j|$ for all odd $j \ge 3$, confirming $s_G = \lambda_1 = -\binom{n-k-1}{k-1}$.
+
+In particular, $v = \binom{n}{k}$ and $k_G = \binom{n-k}{k}$.  The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{\binom{n-k}{k}}{\binom{n-k-1}{k-1}} = 1 + \frac{n-k}{k} = \frac{n}{k}.
+\]
+The embedding dimension:
+\[
+  d = v - g - 1 = \tbinom{n}{k} - n.
+\]
+For fixed $k\ge 3$ and $n\to\infty$, $d\sim n^k/k!$ while $H = n/k$, giving $H = O(d^{1/k}) = o(d)$.
+
+\textbf{(2) Triangular graph $T(n)$ (complement of $K(n,2)$), $n\ge 5$.}
+The triangular graph $T(n)$ has vertex set $\binom{[n]}{2}$ with two vertices adjacent iff they share one element; $v=\binom{n}{2}$ and degree $k_G = 2(n-2)$.
+
+We compute its spectrum via the complement.  The Kneser graph $K(n,2)$ has nontrivial eigenvalues $-(n-3)$ (mult $n-1$) and $1$ (mult $\binom{n}{2}-n$), with degree $\binom{n-2}{2}$~\cite{BvM2022}.  Since $T(n) = \overline{K(n,2)}$, each nontrivial eigenvector of $K(n,2)$ (lying in $\mathbf{1}^\perp$) is also an eigenvector of $T(n)$ with eigenvalue $-1 - \lambda$ (where $\lambda$ is the eigenvalue in $K(n,2)$):
+\[
+  -1-(-(n-3)) = n-4\;\text{(mult }n-1\text{)},\qquad -1-1=-2\;\text{(mult }\tbinom{n}{2}-n\text{)}.
+\]
+For $n\ge 5$: $n-4\ge 1 > 0 > -2$, so $s_G = -2$ is the least eigenvalue with multiplicity $g = \binom{n}{2}-n$.  Hence:
+\[
+  d = v - g - 1 = \tbinom{n}{2} - g - 1 = n - 1,
+  \qquad
+  H = 1 - \frac{2(n-2)}{-2} = n-1 = d.
+\]
+The surplus is $H - d = 0$.
+
+\textbf{(3) Non-collinearity graph of $W(2r-1,q)$.}
+The symplectic polar space $W(2r-1,q)$ ($r\ge 2$, $q$ a prime power) has $v=(q^{2r}-1)/(q-1)$ points.  Its non-collinearity graph $G$ (two points adjacent iff not in a common totally isotropic line) is strongly regular with degree $k_G = q^{2r-1}$ and nontrivial eigenvalues $\pm q^{r-1}$~\cite{BvM2022}.
+
+Let $a=q^{r-1}$.  From the trace equations ($1+f+g=v$ and $k_G + af - ag = 0$):
+\[
+  f - g = -k_G/a = -q^r,\qquad f + g = v-1.
+\]
+Solving: $g = (v-1+q^r)/2$ and $f = (v-1-q^r)/2$.  Hence the embedding dimension
+\[
+  d = v - g - 1 = \frac{v-1-q^r}{2} = f.
+\]
+The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{q^{2r-1}}{q^{r-1}} = 1 + q^r.
+\]
+We compare $H = 1+q^r$ with $d = (v-1-q^r)/2$.  The surplus is
+\[
+  d - H = \frac{v-1-q^r}{2} - (1+q^r) = \frac{v-3-3q^r}{2}.
+\]
+Now $v = (q^{2r}-1)/(q-1) = q^{2r-1}+q^{2r-2}+\cdots+1$.  We need to determine when $v\ge 3+3q^r$:
+\[
+  v - (3+3q^r) = \frac{q^{2r}-1}{q-1} - 3 - 3q^r.
+\]
+For $r=2$: $v-3-3q^2 = (q^3+q^2+q+1)-(3+3q^2) = q^3-2q^2+q-2 = (q-2)(q^2+1)$.  This equals $0$ at $q=2$ and is positive for all $q>2$.
+
+For $r\ge 3$: $v\ge q^{2r-1}$ and $3+3q^r\le 4q^r$, so $v-(3+3q^r)\ge q^{2r-1}-4q^r = q^r(q^{r-1}-4)\ge 0$ for $q^{r-1}\ge 4$, which holds for $(r,q)\ne(3,2)$.  At $(r,q)=(3,2)$: $v=85$, $3+3q^3=27$, so $v > 3+3q^r$. \\
+(In fact for $r=3, q=2$: $d=(84-8)/2=38 > H=1+8=9$.)
+
+Thus in all cases with $r\ge 2$ and $q\ge 2$ except $(r,q)=(2,2)$, we have $v > 3+3q^r$, so $d > H = 1+q^r$ and the surplus $H-d < 0$.  At $(r,q)=(2,2)$: $d=H=5$ (surplus $0$).  In no case is $H > d$.
+
+\textbf{(4) Complement of the generalized hexagon point graph.}
+Let $\mathcal{H}$ be a generalized hexagon of order $(q,q)$~\cite{BvM2022}, and let $\Gamma$ be its point-collinearity graph.  The graph $\Gamma$ has $v=(q+1)(q^4+q^2+1)$ vertices, degree $q(q+1)$, and nontrivial eigenvalues $2q-1$ (multiplicity $m_1$), $-1$ (multiplicity $m_2$), and $-(q+1)$ (multiplicity $m_3$), where
+\[
+  m_1 = \frac{q(q+1)^2(q^2+q+1)}{6},\quad
+  m_2 = \frac{q(q+1)^2(q^2-q+1)}{2},\quad
+  m_3 = \frac{q(q^2+q+1)(q^2-q+1)}{3}.
+\]
+For the complement $G=\overline{\Gamma}$: degree $k_G = v-1-q(q+1) = q^3(q^2+q+1)$.  Since the complement's nontrivial eigenvalues are $-\theta-1$ for each nontrivial eigenvalue $\theta$ of $\Gamma$, the nontrivial eigenvalues of $G$ are:
+\[
+  -2q\;\text{(mult }m_1\text{)},\qquad 0\;\text{(mult }m_2\text{)},\qquad q\;\text{(mult }m_3\text{)}.
+\]
+The least eigenvalue is $s_G = -2q$ (since $q\ge 2$, $-2q < 0 < q$), with multiplicity $g = m_1$.  The embedding dimension:
+\[
+  d = v - m_1 - 1 = m_2 + m_3 \sim \tfrac56 q^5 \quad (q\to\infty).
+\]
+The Hoffman bound:
+\[
+  H = 1 - \frac{k_G}{s_G} = 1 + \frac{q^3(q^2+q+1)}{2q} = 1 + \frac{q^2(q^2+q+1)}{2} \sim \tfrac12 q^4.
+\]
+Since $d\sim \tfrac56 q^5$ and $H\sim \tfrac12 q^4$, we have $H/d\sim \tfrac{3}{5q}\to 0$ as $q\to\infty$.  For small prime powers: at $q=2$, $d=41$ and $H=15$; at $q=3$, $d=259$ and $H\approx 59.5$.  In all cases $H < d$, so the Hoffman bound does not reach $d$.
+
+\medskip
+\textbf{Note on Spectral Realization Theorem conditions.}  The barrier theorem does not require verifying that these families satisfy the conditions of the Spectral Realization Theorem (Theorem~\ref{thm:spectral-realization}).  The argument is purely quantitative: even if a graph from these families were embedded as a packing, its Hoffman bound $H(G) = 1-k/s$ would not exceed $d$, so its chromatic number lower bound $\chi(G)\ge H(G)\le d$ would not give $\chi(G)\ge d+c\,d^\alpha$ for any $c,\alpha>0$.
+
+\textbf{Summary.}  For Kneser graphs ($k\ge 3$) and the hexagon complement, $H = o(d)$; for the triangular graph and symplectic polar graphs, $H\le d$ with equality only in a single small case.  None of these families achieves $H\ge d + c\,d^\alpha$ for any $c>0, \alpha>0$.
+\end{proof}
+
+\begin{remark}
+The barrier analysis establishes that $\alpha=2/3$ cannot be improved using any of the above standard families within the Hoffman framework.  Any improvement to the surplus exponent would require either a genuinely new graph family or a proof technique beyond the Hoffman ratio bound.
+\end{remark}
