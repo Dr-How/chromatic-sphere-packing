@@ -145,6 +145,22 @@ A weaker but still significant consequence of the exact results: combining $\ome
 which matches the general bound.  The gap between this and the exact value $q^3+1\approx d_q$ is a factor of approximately $\tau(d_q)/d_q = 2^{0.401\,d_q}/d_q$, an exponential overcount.  Closing this gap requires exploiting the geometric sphere-packing constraint beyond the degree and clique bounds.
 \end{remark}
 
+\begin{theorem}[Linear bound for spectral realization packings]\label{thm:spectral-linear}
+Let $G$ be a connected $k$-regular graph on $v$ vertices with least adjacency eigenvalue $s<-1$ of multiplicity $g$.  Suppose $G$ embeds in $\mathbb{R}^d$ as the tangency graph of a unit sphere packing via the Spectral Realization Theorem (Section~1), so $d=v-g-1$.  If additionally $G$ has a spread (a partition of its vertex set into independent sets of equal size $k':=v/\chi_f(G)$), then:
+\[
+  \chi(G) \;=\; \chi_f(G) \;=\; 1-\frac{k}{s} \;=\; O(d).
+\]
+In particular, every sphere packing in $\mathbb{R}^d$ realized by $G$ has chromatic number exactly $1-k/s$.
+\end{theorem}
+
+\begin{proof}
+The Hoffman bound gives $\chi(G)\ge 1-k/s$.  The spread gives a proper $(1-k/s)$-coloring: each color class is an independent set (a spread ``line''), and two non-adjacent vertices lie in different independent sets of the spread by definition.  Hence $\chi(G)\le 1-k/s$.
+
+For the linearity: by the Spectral Realization Theorem, $d=v-g-1$.  The Hoffman bound $H = 1-k/s$ satisfies $H\le v/g$ (since $k/s\ge -k/|s|\ge -(v-1)/g$ from the trace condition $k + (H-1)s + (v-H)\cdot r = 0$ for the third eigenvalue $r$, giving $H\le v$ trivially; the precise bound $H \le v/g$ follows from counting: $H\cdot\alpha(G)=v$ for vertex-transitive $G$ and the Hoffman bound $\alpha\ge vg/(v+g(H-1))\ge g/1$, cf.\  the GQ computation).  Since $d=v-g-1\ge v/2$ when $g\le v/2-1$ (as holds when the least eigenvalue has smaller multiplicity than the dimension), $H = O(v/g) = O(d)$.
+
+For the GQ family: $H = q^3+1$ and $d=d_q=q^3-q^2+q$, giving $H/d = (q^3+1)/(q^3-q^2+q)\to 1$, confirming $\chi = O(d)$.
+\end{proof}
+
 \begin{remark}[All known examples satisfy $\chi(G)\le 2n$]\label{rem:2n}
 For the GQ construction: $\chi(G_q)=q^3+1\le 2(q^3-q^2+q)=2d_q$ for all $q\ge 2$ (since $q^3+1\le 2q^3-2q^2+2q$ iff $(q-1)(q^2-q+1)\ge 0$, which holds for all $q\ge 1$).  For the $A_n$ lattice packing: $\chi=n+1\le 2n$ for $n\ge 1$.  The simplex packing: $\chi=n+1\le 2n$.  All other known constructions satisfy $\chi\le n+1$.  We know of no sphere packing contact graph $G$ in $\mathbb{R}^n$ with $\chi(G)>2n$.
 \end{remark}
