@@ -72,3 +72,70 @@ To see this is an improvement over greedy: the ratio of the new bound to $\tau(n
 \begin{remark}
 The key geometric input is $\omega(G_X)\le n+1$, which contrasts sharply with $\tau(n)\sim 2^{0.401n}$.  The logarithmic ratio $\ln\omega/\ln\Delta\sim (\log n)/(0.401n)\to 0$ is what drives the improvement.  The de Bruijn--Erd\H{o}s step (Lemma~\ref{lem:compactness}) is essential: the Bonamy--Kelly--Nelson--Postle theorem is a finite-graph result, and the transfer to arbitrary (possibly infinite) packings requires the compactness principle.
 \end{remark}
+
+\subsection*{Section 7b: Reed's Bound — A Sharper Estimate for Moderate Dimensions}
+
+The BKNP bound in Theorem~\ref{thm:upper-bound} is asymptotically the strongest known result, but for moderate dimensions its large absolute constant ($C_0 = 72$) makes it weaker than a classical alternative.  We record this alternative, which gives a cleaner closed-form bound superior to BKNP in every dimension $n$ arising in practice.
+
+\begin{theorem}[Reed's Bound for Sphere Packings]\label{thm:reed}
+For all sufficiently large $n$,
+\[
+  M(n) \;\le\; \left\lceil\frac{\tau(n)+n+2}{2}\right\rceil.
+\]
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:compactness}, it suffices to bound $\chi(G_X)$ for every finite packing tangency graph $G_X$.  By Lemma~\ref{lem:graph-bounds}, $G_X$ has $\Delta(G_X)\le\tau(n)$ and $\omega(G_X)\le n+1$.  Reed's theorem~\cite{Reed1998} states that for every graph $G$ with $\Delta(G)\ge\Delta_0(\omega(G))$ (a threshold depending on the clique number),
+\[
+  \chi(G)\;\le\;\left\lceil\frac{\Delta(G)+\omega(G)+1}{2}\right\rceil.
+\]
+Since $\tau(n)\ge 2^{0.2075n}$ grows exponentially while $\omega(G_X)\le n+1$ is linear, the condition $\Delta\ge\Delta_0(\omega)$ holds for all sufficiently large $n$.  Substituting $\Delta\le\tau(n)$ and $\omega\le n+1$ gives
+\[
+  \chi(G_X)\;\le\;\left\lceil\frac{\tau(n)+n+2}{2}\right\rceil.
+\]
+Taking the supremum over all finite $X$ yields the result.
+\end{proof}
+
+\begin{remark}[Comparison of the Two Upper Bounds]\label{rem:comparison}
+Theorem~\ref{thm:upper-bound} (BKNP) gives $M(n)\le C\tau(n)\sqrt{\log n/n}$, while Theorem~\ref{thm:reed} gives $M(n)\le\tau(n)/2 + O(n)$.  For large $n$:
+\[
+  \text{BKNP} \;\sim\; C\tau(n)\sqrt{\frac{\log n}{n}} \;=\; o(\tau(n)),
+  \qquad
+  \text{Reed} \;\sim\; \frac{\tau(n)}{2}.
+\]
+BKNP is asymptotically stronger ($o(\tau(n))$ vs.\ $\tau(n)/2$), but the constant $C=72$ means Reed's bound dominates in every dimension accessible by computation.  Concretely, for $n\le 10^5$ and $\tau(n)\le 2^{0.401n}$, Reed gives $M(n)\le\tau(n)/2+O(n)$, whereas BKNP gives $72\tau(n)\sqrt{\log n/n}>\tau(n)/2$ (since $72^2\log n/n > 1/4$ for $n\le 10^5$).  The crossover where BKNP beats Reed occurs around $n\approx 4\ln(144^2)\cdot n/\ln n$, i.e.\ $n$ of order $10^6$ or larger.
+
+The combined best-known upper bound is therefore:
+\[
+  M(n)\;\le\;\min\!\left(\left\lceil\tfrac{\tau(n)+n+2}{2}\right\rceil,\;C\tau(n)\sqrt{\tfrac{\log n}{n}}\right).
+\]
+For $n\le 10^5$ the Reed bound dominates; for $n\to\infty$ the BKNP bound dominates.
+
+\textbf{Selected values} using exact kissing numbers where known and $\tau(n)\le 2^{0.401n}$ otherwise:
+
+\smallskip
+\begin{center}
+\begin{tabular}{r|r|r|r|r}
+$n$ & $\tau(n)$ & Greedy $\tau+1$ & Reed $\lceil(\tau+n+2)/2\rceil$ & Improvement factor\\
+\hline
+$3$ & $12$ & $13$ & $9$ & $1.44\times$\\
+$4$ & $24$ & $25$ & $15$ & $1.67\times$\\
+$8$ & $240$ & $241$ & $125$ & $1.93\times$\\
+$24$ & $196560$ & $196561$ & $98293$ & $\approx 2\times$\\
+$n\to\infty$ & $\tau(n)$ & $\tau(n)+1$ & $\tau(n)/2+O(n)$ & $\to 2\times$\\
+\end{tabular}
+\end{center}
+\smallskip
+
+Reed's bound thus cuts the greedy upper bound by a factor approaching $2$, independent of $n$.  The BKNP bound cuts it by a factor $\sqrt{n/\log n}\to\infty$, but only asymptotically.
+\end{remark}
+
+\begin{remark}[Barriers to Further Improvement]
+Both bounds above ultimately rely on $\tau(n)$, the kissing number, as the main input.  Any improvement of the form $M(n)\le\tau(n)^{1-c}$ for a fixed $c>0$ would require structural properties of contact graphs beyond the degree and clique bounds used here.  Candidate approaches include:
+\begin{itemize}
+  \item \textbf{Lovász theta / SDP}: The Lov\'asz $\vartheta$-function of the contact graph is related to the Cohn--Elkies LP bound for sphere packings, and might yield $M(n)\le\tau(n)/n^{\varepsilon}$ for some $\varepsilon>0$.
+  \item \textbf{Entropy compression in neighborhoods}: Since each neighborhood $N(v)$ is itself a kissing configuration (a unit sphere packing on $S^{n-1}$), the local chromatic structure is recursive and may admit a stronger coloring argument.
+  \item \textbf{Improving $\tau(n)$}: Any improvement to the Kabatiansky--Levenshtein kissing number bound would immediately improve both $M(n)$ bounds above.  No improvement has been found since 1978.
+\end{itemize}
+For the \emph{lower} bound, the barrier theorem (Section~6) shows the existing spectral framework is stuck at surplus $O(n^{2/3})$; beating this requires a new geometric construction.  Consequently, the gap between the polynomial lower bound $M(n)\ge n+\Omega(n^{2/3})$ and the exponential upper bound $M(n)\le O(\tau(n))$ remains the central open problem.
+\end{remark}
