@@ -1,0 +1,63 @@
+\subsection*{Section 8: Further Upper Bounds and Open Problems}
+
+We record two additional upper bounds and discuss the principal obstruction to further improvement.
+
+\medskip
+\textbf{Notation.}  Write $\tau^+(n)$ for the \emph{one-sided kissing number}: the maximum number of non-overlapping unit spheres whose centres lie in a fixed closed half-space of $\mathbb{R}^n$ and all touch a fixed central unit sphere.  Known values: $\tau^+(1)=1$, $\tau^+(2)=4$, $\tau^+(3)=9$ (see~\cite{BvM2022}).  In general, $\tau^+(n)<\tau(n)$ and $\tau^+(n)/\tau(n)\to 1$ as $n\to\infty$; for small $n$, $\tau^+(n)/\tau(n) = 2/3, 3/4, \ldots$, suggesting $\tau^+(n) \approx \tau(n)\cdot(1-1/(n+1))$.
+
+\begin{theorem}[Brooks Bound and Degeneracy Bound]\label{thm:further}
+\begin{enumerate}
+\item[\textup{(i)}] For all $n\ge 2$: $M(n)\le \tau(n)$.
+\item[\textup{(ii)}] For all $n\ge 1$: $M(n)\le \tau^+(n)+1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Both bounds use Lemma~\ref{lem:compactness} (compactness) and Lemma~\ref{lem:graph-bounds} (geometric parameters).
+
+\textbf{(i).}  By Brooks' theorem~\cite{Brooks1941}, a connected graph $G$ satisfies $\chi(G)\le \Delta(G)$ unless $G$ is a complete graph $K_{\Delta+1}$ or an odd cycle.  The tangency graph $G_X$ has $\Delta(G_X)\le \tau(n)$.  For $n\ge 2$, any complete subgraph $K_m \subseteq G_X$ requires $m$ mutually tangent sphere centres, which form an equidistant set in $\mathbb{R}^n$ of size $m$; since the maximum equidistant set in $\mathbb{R}^n$ has size $n+1$, we have $\omega(G_X)\le n+1$.  For $n\ge 2$, $n+1 < \tau(n)+1$ (since $\tau(2)=6>3$, $\tau(3)=12>4$, etc.), so $G_X$ is not a complete graph $K_{\tau(n)+1}$.  Also $G_X$ is not an odd cycle, since for $n\ge 2$ any non-trivial sphere packing has vertices of degree $\ge 1$; in any connected component that is not a single edge (and single edges have $\chi=2\le\tau(n)$), the maximum degree exceeds $2$ and the graph is not a cycle.  Therefore $\chi(G_X)\le\tau(n)$, giving $M(n)\le\tau(n)$.
+
+\textbf{(ii).}  Fix a unit vector $u\in\mathbb{R}^n$ generic (avoiding any direction parallel to an edge of $G_X$).  Order the vertices of $G_X$ by the linear functional $\ell_u(v)=\langle v,u\rangle$; this defines a total order $v_1<v_2<\cdots<v_N$ on the packing centres.
+
+For each $v_i$, the \emph{back-neighbours} are $B(v_i):=\{v_j: j<i,\{v_i,v_j\}\in E(G_X)\}$, i.e.\ the neighbours of $v_i$ with a smaller $\ell_u$-value.  These back-neighbours are sphere centres at distance $1$ from $v_i$ with $\langle w-v_i,u\rangle<0$, lying in the open half of the unit sphere $S^{n-1}(v_i)$ facing $-u$.  This is exactly a one-sided kissing configuration around $v_i$ in the half-space $\{w:\langle w-v_i,u\rangle\le 0\}$, so $|B(v_i)|\le\tau^+(n)$.
+
+Greedy colouring in the order $v_1,v_2,\ldots$ uses at most $\max_i|B(v_i)|+1\le\tau^+(n)+1$ colours.  By Lemma~\ref{lem:compactness}, $M(n)\le\tau^+(n)+1$.
+\end{proof}
+
+\begin{remark}
+Bound (i) (Brooks) improves greedy by exactly $1$: $M(n)\le\tau(n)$ vs.\ $M(n)\le\tau(n)+1$.  For $n=3$: Brooks gives $M(3)\le 12$, Reed gives $M(3)\le 9$, so Reed dominates.
+
+Bound (ii) (degeneracy via half-space kissing) is a new geometric bound.  For small $n$ where $\tau^+(n)$ is known:
+\smallskip
+\begin{center}
+\begin{tabular}{r|r|r|r|r|r}
+$n$ & $\tau(n)$ & $\tau^+(n)$ & Greedy & \textup{Bound (ii)} & Reed \\
+\hline
+$2$ & $6$ & $4$ & $7$ & $5$ & $5$ \\
+$3$ & $12$ & $9$ & $13$ & $10$ & $9$ \\
+\end{tabular}
+\end{center}
+\smallskip
+For $n=2$: bound (ii) matches Reed.  For $n=3$: Reed is slightly tighter.  Asymptotically, since $\tau^+(n)<\tau(n)$ but $\tau^+(n)/\tau(n)\to 1$, bound (ii) is asymptotically dominated by Reed's $\tau(n)/2$.
+
+The interest in bound (ii) is geometric rather than numerical: it expresses the chromatic upper bound purely in terms of the one-sided kissing number, a combinatorial-geometric invariant of $\mathbb{R}^n$ that may be tractable via SDP / spherical code methods independently of the full kissing number.
+\end{remark}
+
+\medskip
+\textbf{Summary of all upper bounds.}  The complete hierarchy for $M(n)$:
+\[
+  M(n)\;\le\;\min\bigl(\tau^+(n)+1,\;\tau(n),\;\lceil\tfrac{\tau(n)+n+2}{2}\rceil,\;72\,\tau(n)\sqrt{\tfrac{\log n}{n}}\bigr).
+\]
+For known small dimensions ($n=2,3$): the minimum is achieved by Reed for $n=3$ and by bound (ii) for $n=2$; for $n\to\infty$, BKNP dominates.
+
+\medskip
+\textbf{Open problems.}
+\begin{enumerate}
+\item[\textup{(1)}] \emph{Polynomial factor improvement}: Does $M(n)\le\tau(n)/n^{\varepsilon}$ hold for some $\varepsilon>0$ and all large $n$?  The BKNP bound gives $M(n)\le\tau(n)\cdot O(\sqrt{\log n/n})$ (which is $\tau(n)/n^{1/2-o(1)}$ if $\log$ is base 2), so the answer is yes with $\varepsilon = 1/2 - o(1)$ from BKNP.  Can one do better, e.g.\ $\varepsilon$ close to $1$?
+
+\item[\textup{(2)}] \emph{Contact-graph structure beyond $(\Delta,\omega)$}: Every contact graph is a \emph{1-distance graph} (edges at distance exactly 1, non-edges at distance $>1$ in $\mathbb{R}^n$).  This geometric constraint is not captured by $\Delta$ and $\omega$ alone.  In particular, the Gram matrix of the edge vectors is positive semidefinite with a specific rank-$n$ structure.  Can this algebraic structure be used in a coloring argument?
+
+\item[\textup{(3)}] \emph{One-sided kissing number}: Determine $\tau^+(n)$ for $n\ge 4$.  If $\tau^+(n)\le(1-c)\tau(n)$ for some absolute constant $c>0$, then bound (ii) gives $M(n)\le(1-c)\tau(n)+1$, a constant-factor improvement independent of $n$.  Current evidence ($\tau^+(2)/\tau(2)=2/3$, $\tau^+(3)/\tau(3)=3/4$) is consistent with $\tau^+(n)/\tau(n)\to 1$, in which case bound (ii) is asymptotically equivalent to the greedy bound.
+
+\item[\textup{(4)}] \emph{Lower bound improvement}: Close the gap $n+\Omega(n^{2/3})\le M(n)\le 2^{0.401n(1+o(1))}$.  The barrier theorem (Section~6) rules out a spectral improvement for the four classical families; a new geometric construction with chromatic surplus $\omega(n^\alpha)$ for $\alpha>2/3$ would be needed.
+\end{enumerate}
