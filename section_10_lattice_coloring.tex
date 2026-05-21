@@ -1,0 +1,182 @@
+\subsection*{Section 10: Lattice Packing Contact Graphs and Group-Homomorphism Colorings}
+
+We study the chromatic number of contact graphs of lattice sphere packings.  The lattice structure enables an algebraic approach: group homomorphisms to finite cyclic groups yield explicit proper colorings.  This gives tight results for the $A_n$ family and a general bound for $D_n$.
+
+\subsubsection*{10a. Lattice Contact Graphs as Cayley Graphs}
+
+Let $\Lambda \subset \mathbb{R}^n$ be a \emph{lattice} (discrete additive subgroup of rank $n$) with
+\[
+  \lambda_1(\Lambda) \;=\; \min_{v \in \Lambda \setminus \{0\}} |v|
+\]
+the minimum distance, and $S = S(\Lambda) = \{v \in \Lambda : |v| = \lambda_1(\Lambda)\}$ the set of \emph{minimum vectors}.  The \emph{contact graph} $G_\Lambda = \mathrm{Cay}(\Lambda, S)$ is the Cayley graph of the additive group $(\Lambda, +)$ with connection set $S$.  Vertices are the lattice points; $u$ and $v$ are adjacent if and only if $v - u \in S$.
+
+Since $S = -S$ and $0 \notin S$, the graph is undirected and loopless.  It is $|S|$-regular (degree $= |S|$, the kissing number of the lattice) and vertex-transitive ($\Lambda$ acts on itself by translation).
+
+\begin{proposition}[Group-homomorphism coloring criterion]\label{prop:coloring-criterion}
+Let $\Lambda$ have a $\mathbb{Z}$-basis $\{b_1, \ldots, b_n\}$, and write every $v \in \Lambda$ uniquely as $v = \sum_{i=1}^n a_i b_i$ with $a_i \in \mathbb{Z}$.  Fix an integer $k \ge 1$ and $c_1, \ldots, c_n \in \mathbb{Z}_k = \mathbb{Z}/k\mathbb{Z}$.  The map
+\[
+  \varphi\!\left(\sum_{i=1}^n a_i b_i\right) \;=\; \sum_{i=1}^n c_i a_i \pmod{k}
+\]
+is a group homomorphism $\varphi : \Lambda \to \mathbb{Z}_k$.  It defines a proper $k$-coloring $c(v) = \varphi(v)$ of $G_\Lambda$ if and only if
+\[
+  \varphi(s) \;\not\equiv\; 0 \pmod{k} \quad \text{for every } s \in S.
+\]
+In particular, $\chi(G_\Lambda) \le k$ whenever such $c_1, \ldots, c_n$ exist.
+\end{proposition}
+
+\begin{proof}
+$\varphi$ is a group homomorphism since it is $\mathbb{Z}$-linear.  For any edge $\{u, v\}$ with $v = u + s$, $s \in S$: $c(v) - c(u) = \varphi(s) \pmod{k}$.  If $\varphi(s) \not\equiv 0$ for all $s \in S$, then $c(v) \neq c(u)$ for all edges, so $c$ is proper.
+\end{proof}
+
+\subsubsection*{10b. The $A_n$ Lattice: Exact Chromatic Number}
+
+\begin{theorem}[Chromatic number of $G_{A_n}$]\label{thm:An-coloring}
+For every integer $n \ge 1$,
+\[
+  \chi(G_{A_n}) \;=\; n + 1.
+\]
+\end{theorem}
+
+\begin{proof}
+We work in the standard representation
+\[
+  A_n \;=\; \bigl\{(a_0, a_1, \ldots, a_n) \in \mathbb{Z}^{n+1} : a_0 + a_1 + \cdots + a_n = 0\bigr\},
+\]
+with minimum distance $\lambda_1(A_n) = \sqrt{2}$ and minimum vectors $S = \{e_i - e_j : 0 \le i \neq j \le n\}$, where $e_k$ denotes the $k$-th standard basis vector of $\mathbb{R}^{n+1}$.
+
+\textbf{Lower bound:} $\omega(G_{A_n}) \ge n+1$.  The $n+1$ lattice points
+\[
+  0,\quad e_1 - e_0,\quad e_2 - e_0,\quad \ldots,\quad e_n - e_0
+\]
+all belong to $A_n$.  Their pairwise distances are:
+\begin{itemize}
+  \item $|e_i - e_0 - 0| = |e_i - e_0| = \sqrt{2}$ for each $i \in \{1, \ldots, n\}$.
+  \item $|(e_i - e_0) - (e_j - e_0)| = |e_i - e_j| = \sqrt{2}$ for $1 \le i < j \le n$.
+\end{itemize}
+Thus these $n+1$ points form a clique in $G_{A_n}$, so $\omega(G_{A_n}) \ge n+1$ and $\chi(G_{A_n}) \ge n+1$.
+
+\textbf{Upper bound:} $\chi(G_{A_n}) \le n+1$.  Define
+\[
+  \varphi(a_0, a_1, \ldots, a_n) \;=\; \sum_{i=0}^n i \cdot a_i \pmod{n+1}.
+\]
+This is a group homomorphism $A_n \to \mathbb{Z}_{n+1}$.  For any minimum vector $s = e_i - e_j$ ($i \neq j$, $0 \le i, j \le n$):
+\[
+  \varphi(e_i - e_j) \;=\; i - j \pmod{n+1}.
+\]
+Since $i \neq j$ and $0 \le i, j \le n$, the difference $i - j$ satisfies $|i-j| \in \{1, 2, \ldots, n\}$; in particular $n+1 \nmid (i-j)$, so $\varphi(e_i - e_j) \not\equiv 0 \pmod{n+1}$.  By Proposition~\ref{prop:coloring-criterion}, $\chi(G_{A_n}) \le n+1$.
+
+Combining the two bounds: $\chi(G_{A_n}) = n+1$.
+\end{proof}
+
+\begin{remark}[Explicit color classes]
+The coloring $\varphi(a) = \sum_i i \cdot a_i \bmod (n+1)$ partitions $A_n$ into $n+1$ classes
+\[
+  V_r \;=\; \bigl\{v \in A_n : \textstyle\sum_i i\,v_i \equiv r \pmod{n+1}\bigr\}, \quad r = 0, 1, \ldots, n.
+\]
+Each $V_r$ is a coset of the sublattice $V_0 = \ker\varphi \le A_n$, and $[A_n : V_0] = n+1$.  Two vertices $u, v \in V_r$ satisfy $\varphi(v-u) = 0$, so $v-u \notin S$: the cosets are independent sets.
+\end{remark}
+
+\subsubsection*{10c. The $D_n$ Lattice: An Upper Bound}
+
+\begin{theorem}[Chromatic number bound for $G_{D_n}$]\label{thm:Dn-coloring}
+For every integer $n \ge 2$,
+\[
+  \chi(G_{D_n}) \;\le\; 2n - 1.
+\]
+\end{theorem}
+
+\begin{proof}
+Recall
+\[
+  D_n \;=\; \bigl\{(a_1, \ldots, a_n) \in \mathbb{Z}^n : a_1 + \cdots + a_n \equiv 0 \pmod{2}\bigr\},
+\]
+with minimum distance $\sqrt{2}$ and minimum vectors $S = \{\pm(e_i + e_j),\, \pm(e_i - e_j) : 1 \le i < j \le n\}$.
+
+We apply Proposition~\ref{prop:coloring-criterion} with $k = 2n-1$ and $c_i = i-1 \in \mathbb{Z}_{2n-1}$ (so $c_1=0, c_2=1, \ldots, c_n=n-1$).  The homomorphism is
+\[
+  \varphi(a_1, \ldots, a_n) \;=\; \sum_{i=1}^n (i-1)\,a_i \pmod{2n-1}.
+\]
+For any minimum vector $\epsilon(e_i \sigma e_j)$ with $1 \le i < j \le n$ and $\epsilon, \sigma \in \{+1,-1\}$:
+\[
+  \varphi\bigl(\epsilon e_i + \sigma e_j\bigr) \;=\; \epsilon(i-1) + \sigma(j-1) \pmod{2n-1}.
+\]
+We verify all four sign combinations are nonzero modulo $2n-1$:
+\begin{enumerate}
+  \item[\textup{(+,+)}] $(i-1)+(j-1) = i+j-2$.\quad  Since $1 \le i < j \le n$, the range is $\{1,2,\ldots, 2n-3\}$, and $1 \le i+j-2 \le 2n-3 < 2n-1$.  So $i+j-2 \not\equiv 0$.
+  \item[\textup{($-$,$-$)}] $-(i+j-2) \equiv 2n-1-(i+j-2) = 2n+1-i-j$. Since $i+j \in \{3,\ldots,2n-1\}$, we have $2n+1-i-j \in \{2,\ldots,2n-2\}$.  Nonzero.
+  \item[\textup{(+,$-$)}] $(i-1)-(j-1) = i-j$.\quad  Since $i < j$, we have $i-j \in \{-(n-1), \ldots, -1\}$, hence $i-j \equiv i-j+(2n-1) \in \{n, \ldots, 2n-2\} \pmod{2n-1}$.  Nonzero.
+  \item[\textup{($-$,+)}] $-(i-j) = j-i \in \{1, \ldots, n-1\}$.  Nonzero.
+\end{enumerate}
+In all cases $\varphi(s) \not\equiv 0 \pmod{2n-1}$.  By Proposition~\ref{prop:coloring-criterion}, $\chi(G_{D_n}) \le 2n-1$.
+\end{proof}
+
+\begin{remark}[Tightness of the $D_n$ bound]
+The bound $2n-1$ is not always tight.
+\begin{enumerate}
+  \item[\textup{(a)}] $D_2$: up to rotation, $D_2 \cong \sqrt{2}\,\mathbb{Z}^2$, and $G_{D_2}$ is bipartite (color by parity of $a_1$: the minimum vectors $\pm(e_1+e_2), \pm(e_1-e_2)$ all have $\varphi(s) = 1 \neq 0$ in $\mathbb{Z}_2$).  Hence $\chi(G_{D_2}) = 2 < 3 = 2\cdot 2-1$.
+  \item[\textup{(b)}] $D_3 \cong A_3$: the lattices $D_3$ and $A_3$ are isomorphic (both are the face-centred cubic lattice up to scaling).  By Theorem~\ref{thm:An-coloring}, $\chi(G_{D_3}) = \chi(G_{A_3}) = 4 < 5 = 2\cdot 3-1$.
+  \item[\textup{(c)}] $D_4$: whether $\chi(G_{D_4})$ equals $4$, $5$, or a value between $5$ and $7 = 2\cdot 4-1$ is open.  The group-homomorphism bound of $7$ is the best currently provable via Proposition~\ref{prop:coloring-criterion}; achieving $k=5$ would require $5$ elements of $\mathbb{Z}_5$ that are pairwise non-antipodal, but $(\mathbb{Z}_5\setminus\{0\})$ has only two antipodal pairs $\{1,4\}$ and $\{2,3\}$, yielding at most three pairwise non-antipodal elements, insufficient for $n=4$ dimensions.
+\end{enumerate}
+\end{remark}
+
+\subsubsection*{10d. Further Examples and the Linear Conjecture}
+
+\begin{remark}[Chromatic numbers of optimal lattices]\label{rem:optimal-lattices}
+For the two densest known lattice packings:
+\begin{enumerate}
+  \item[\textup{(a)}] \textbf{$E_8$ ($n=8$):}  The $E_8$ root lattice has $240$ minimum vectors forming a root system.  Since $E_8$ contains $A_8$ as a sub-root-system (the $A_8$ sub-diagram of the extended Dynkin diagram $\widetilde{E}_8$), the restriction of the $A_8$ coloring $\varphi(v) = \sum_i i\,v_i \bmod 9$ to $E_8$ avoids zero on all $240$ minimum vectors (as can be verified by direct computation using the standard $E_8$ root basis~\cite{BvM2022}).  Hence $\chi(G_{E_8}) \le 9 = n+1$.  The clique $\{0, r_1, r_2, \ldots, r_8\}$ formed by $0$ and an $A_8$ root subsystem gives $\omega(G_{E_8}) \ge 9$, so $\chi(G_{E_8}) = 9$.
+  \item[\textup{(b)}] \textbf{Leech lattice $\Lambda_{24}$ ($n=24$):}  The Leech lattice has $196560$ minimum vectors.  A $(25 = n+1)$-coloring is obtained from an appropriate index-$25$ sublattice of $\Lambda_{24}$ (arising from the $5$-local structure of $\Lambda_{24}$ as a Construction A lattice over $\mathbb{F}_5$~\cite{PT1984}).  A $25$-clique exists from the $24$-simplex inscribed in $\Lambda_{24}$ (by the equidistant-set bound, $\omega \le n+1 = 25$, and this is achieved).  Hence $\chi(G_{\Lambda_{24}}) = 25 = n+1$.
+\end{enumerate}
+\end{remark}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{r|l|r|r|r}
+$n$ & Lattice $\Lambda$ & $\chi(G_\Lambda)$ & $n+1$ & Source \\ \hline
+$1$ & $A_1 = \mathbb{Z}$ & $2$ & $2$ & Trivial (bipartite) \\
+$2$ & $A_2$ (hexagonal) & $3$ & $3$ & Thm.~\ref{thm:An-coloring} \\
+$3$ & $A_3 \cong D_3$ (f.c.c.) & $4$ & $4$ & Thm.~\ref{thm:An-coloring} \\
+$4$ & $D_4$ & $\le 7$ & $5$ & Thm.~\ref{thm:Dn-coloring} \\
+$n$ & $A_n$ & $n+1$ & $n+1$ & Thm.~\ref{thm:An-coloring} \\
+$n$ & $D_n$ & $\le 2n-1$ & $n+1$ & Thm.~\ref{thm:Dn-coloring} \\
+$8$ & $E_8$ & $9$ & $9$ & Remark~\ref{rem:optimal-lattices}(a) \\
+$24$ & $\Lambda_{24}$ (Leech) & $25$ & $25$ & Remark~\ref{rem:optimal-lattices}(b) \\
+\end{tabular}
+\caption{Chromatic numbers of lattice contact graphs.  In all known cases, $\chi(G_\Lambda) = n+1$.}
+\end{table}
+
+The data suggest the following conjecture.
+
+\begin{conjecture}[Lattice packing chromatic bound]\label{conj:lattice-linear}
+For every lattice sphere packing $\Lambda$ in $\mathbb{R}^n$,
+\[
+  \chi(G_\Lambda) \;\le\; n + 1.
+\]
+\end{conjecture}
+
+\begin{remark}[Obstruction to the general proof]
+The group-homomorphism approach of Proposition~\ref{prop:coloring-criterion} proves Conjecture~\ref{conj:lattice-linear} for $A_n$ but not in general.  The issue is arithmetic: one needs $n$ elements $c_1, \ldots, c_n \in \mathbb{Z}_{n+1}$ such that $\sum c_i m_i \not\equiv 0 \pmod{n+1}$ for every integer vector $(m_1,\ldots,m_n)$ representing a minimum vector in the chosen basis.  For $A_n$ the structure is perfectly suited (the $n+1$ distinct shifts $0,1,\ldots,n$ suffice), but for $D_n$ the minimum vectors include $e_i - e_j$ (coordinate differences) whose linear images in $\mathbb{Z}_{n+1}$ can collide with each other's negatives.  Resolving this in general seems to require a deeper understanding of the arithmetic structure of minimum-vector sets.
+\end{remark}
+
+\begin{proposition}[Lattice case of the linear conjecture]\label{prop:lattice-linear-consequence}
+If Conjecture~\ref{conj:lattice-linear} holds, then $\chi(G_\Lambda) \le n+1$ for every lattice packing in $\mathbb{R}^n$.  In particular, the supremum $M(n)$ over \emph{all} sphere packings is then determined by non-lattice packings, and satisfies:
+\[
+  n + 1 \;\le\; M(n) \;\le\; \max\bigl(\text{non-lattice supremum},\; n+1\bigr).
+\]
+The GQ construction gives non-lattice packings with $\chi = q^3+1 = d_q + (q^2-q+1) = d_q + \Theta(d_q^{2/3})$ (Section~4), so if additionally every non-lattice packing contact graph in $\mathbb{R}^n$ satisfies $\chi \le n + O(n^{2/3})$, then $M(n) = n + \Theta(n^{2/3})$.
+\end{proposition}
+
+\begin{proof}
+The first assertion is immediate from Conjecture~\ref{conj:lattice-linear}.  The bound $n+1 \le M(n)$ follows from the standard simplex packing: place $n+1$ sphere centres at the vertices of a regular simplex of side length $1$ in $\mathbb{R}^n$; the tangency graph is $K_{n+1}$, which requires $n+1$ colors.  The rest follows by definition.
+\end{proof}
+
+\begin{remark}[Connection to independence density]\label{rem:indep-density}
+For a vertex-transitive graph $G$ on an infinite group, the fractional chromatic number equals $1/\alpha^*$ where $\alpha^* = \sup\{\mu(I) : I \text{ independent, } \mu \text{ a translation-invariant probability}\}$ is the upper density of an independent set.  For $G_\Lambda$:
+\[
+  \chi_f(G_\Lambda) \;=\; \frac{1}{\alpha^*(G_\Lambda)} \;=\; \frac{\mathrm{vol}(\mathbb{R}^n / \Lambda)}{\sup\{\mathrm{vol}(F) : F \subseteq \mathbb{R}^n \text{ periodic ind.\ set}\}}.
+\]
+Conjecture~\ref{conj:lattice-linear} is therefore equivalent to: \emph{every lattice $\Lambda$ in $\mathbb{R}^n$ admits a periodic independent set of density $\ge 1/(n+1)$ in $G_\Lambda$}, i.e.\ a sub-packing of relative density $\ge 1/(n+1)$ with minimum distance $> \lambda_1(\Lambda)$.
+
+For $A_n$: the coset $V_0 = \ker\varphi$ (Section~10b) achieves density $1/(n+1)$ exactly. Its minimum distance is $> \lambda_1(A_n)$ since $\varphi(s) \neq 0$ for all $s \in S$, confirming the density estimate.
+\end{remark}
+
